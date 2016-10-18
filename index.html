@@ -13,48 +13,52 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COMP397 - Web Game Programming Boilerplate</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>COMP397 - Web Game Programming Boilerplate</title>
 
-    <!--CSS Section-->
-    <link rel="stylesheet" type="text/css" href="Content/reset.css">
-    <link rel="stylesheet" type="text/css" href="Scripts/lib/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="Scripts/lib/bootstrap-theme.css">
-    <link rel="stylesheet" type="text/css" href="Scripts/lib/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="Content/game.css">
+	<!--CSS Section-->
+	<link rel="stylesheet" type="text/css" href="Content/reset.css">
+	<link rel="stylesheet" type="text/css" href="Scripts/lib/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="Scripts/lib/bootstrap-theme.css">
+	<link rel="stylesheet" type="text/css" href="Scripts/lib/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="Content/game.css">
 </head>
 
 <body>
-    <div class="game">
-        <canvas id="canvas" width="640" height="480"></canvas>
-    </div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-offset-1 col-md-10">
+				<canvas id="canvas" width="1024" height="600"></canvas>
+			</div>
+		</div>
+	</div>
 
-    <!--JavaScript Scripts-->
-    <script src="Scripts/lib/jquery.min.js"></script>
-    <script src="Scripts/lib/bootstrap.min.js"></script>
+	<!--JavaScript Scripts-->
+	<script src="Scripts/lib/jquery.min.js"></script>
+	<script src="Scripts/lib/bootstrap.min.js"></script>
 
-    <!--CreateJS Suite Scripts-->
-    <script src="Scripts/lib/easeljs-0.8.2.min.js"></script>
-    <script src="Scripts/lib/preloadjs-0.6.2.min.js"></script>
-    <script src="Scripts/lib/soundjs-0.6.2.min.js"></script>
-    <script src="Scripts/lib/tweenjs-0.6.2.min.js"></script>
+	<!--CreateJS Suite Scripts-->
+	<script src="Scripts/lib/easeljs-0.8.2.min.js"></script>
+	<script src="Scripts/lib/preloadjs-0.6.2.min.js"></script>
+	<script src="Scripts/lib/soundjs-0.6.2.min.js"></script>
+	<script src="Scripts/lib/tweenjs-0.6.2.min.js"></script>
 
-    <!--Game Scripts-->
-    <script src="Scripts/config/config.js"></script>
+	<!--Game Scripts-->
+	<script src="Scripts/config/config.js"></script>
 
-    <script src="Scripts/objects/asset.js"></script>
-    <script src="Scripts/objects/label.js"></script>
-    <script src="Scripts/objects/button.js"></script>
-    <script src="Scripts/objects/scene.js"></script>
+	<script src="Scripts/objects/asset.js"></script>
+	<script src="Scripts/objects/label.js"></script>
+	<script src="Scripts/objects/button.js"></script>
+	<script src="Scripts/objects/scene.js"></script>
 
-    <!-- Scene Scripts -->
-    <script src="Scripts/scenes/game.js"></script>
-    <script src="Scripts/scenes/menu.js"></script>
-    <script src="Scripts/scenes/gameover.js"></script>
+	<!-- Scene Scripts -->
+	<script src="Scripts/scenes/game.js"></script>
+	<script src="Scripts/scenes/menu.js"></script>
+	<script src="Scripts/scenes/gameover.js"></script>
 
 
-    <script src="Scripts/core/game.js"></script></body>
+	<script src="Scripts/core/game.js"></script></body>
 
 </html>
 

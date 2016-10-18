@@ -13,17 +13,14 @@ body {
     background-color: darkgrey;
 }
 
-.game {
-    width : 80%;
-    margin: 0 auto;
-}
-
 canvas {
     border: 1px solid black;
     border-radius: 10px;
     text-align: center;
-    background-color: white;
-    margin-left: 10%;
+    background-color: aliceblue;
+    margin-top: 10vh;
+    /*width: 100vw;
+    height: 100vh;*/
 }
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
