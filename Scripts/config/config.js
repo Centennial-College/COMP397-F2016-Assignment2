@@ -2,7 +2,7 @@
  * @file config.ts
  * @author Kevin Ma kma45@my.centennialcollege.ca
  * @studentID 300867968
- * @date: September 20, 2016
+ * @date: October 18, 2016
  * @description: This file is used to store globally accessible values and states for the game.
  * @version 0.1.0
  */
@@ -21,10 +21,10 @@ var config;
     var Screen = (function () {
         function Screen() {
         }
-        Screen.WIDTH = 640;
-        Screen.HEIGHT = 480;
-        Screen.CENTER_X = 320;
-        Screen.CENTER_Y = 240;
+        Screen.WIDTH = 1024;
+        Screen.HEIGHT = 600;
+        Screen.CENTER_X = Screen.WIDTH / 2;
+        Screen.CENTER_Y = Screen.HEIGHT / 2;
         return Screen;
     }());
     config.Screen = Screen;
