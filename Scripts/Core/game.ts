@@ -4,7 +4,7 @@
  * @studentID 300867968
  * @date: September 20, 2016
  * @description: This file is the entry point for the game.
- * @version 0.1.0
+ * @version 0.3.0
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -31,8 +31,7 @@ let assetData: objects.Asset[] = [
     { id: "Start", src: "../../Assets/images/Start.png" },
     { id: "Back", src: "../../Assets/images/Back.png" },
     { id: "BG", src: "../../Assets/images/bg.png" },
-    { id: "GameOver", src: "../../Assets/images/gameover.png" },
-    { id: "Mario", src: "../../Assets/images/mario.png" }
+    { id: "tetroSheet", src: "../../Assets/images/tetrominoAtlas.png" }
 ];
 
 /**
@@ -75,7 +74,7 @@ function init(): void {
     tetrominoAtlas = new createjs.SpriteSheet(
         {
             "images": [
-                "tetrominoAtlas.png"
+                assets.getResult('tetroSheet')
             ],
 
             "frames": [
@@ -102,7 +101,6 @@ function init(): void {
  */
 function gameLoop(event: createjs.Event): void {
     // Update whatever scene is currently active.
-    console.log("gameLoop update");
     currentScene.update();
     stage.update();
 }

@@ -35,6 +35,8 @@ var scenes;
             console.log("Game scene started");
             this._background = new createjs.Bitmap(assets.getResult('BG'));
             this.addChild(this._background);
+            this._currentTetromino = new objects.Square();
+            this.addChild(this._currentTetromino);
             // Create button for scene and add to Game Scene container. Register for onclick event
             this._gameButton = new objects.Button("Back", config.Screen.CENTER_X, config.Screen.CENTER_Y + 250);
             this.addChild(this._gameButton);
@@ -53,6 +55,7 @@ var scenes;
          */
         Game.prototype.update = function () {
             // Update objects
+            this._currentTetromino.update();
         };
         // PRIVATE FUNCTIONS +++++++++++++++++++++++++++++++++++++++++++++++++
         /**

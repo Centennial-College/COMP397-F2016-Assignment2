@@ -4,7 +4,7 @@
  * @studentID 300867968
  * @date Oct 18 2016
  * @description GameObject class represents any game object in the game. 
- * @version 0.1.0
+ * @version 0.3.0
  */
 module objects {
     export abstract class GameObject extends createjs.Sprite {
@@ -15,6 +15,14 @@ module objects {
         private _position: Vector2;
 
         // PUBLIC PROPERTIES
+        get halfWidth(): number {
+            return this.width / 2
+        }
+
+        get halfHeight(): number {
+            return this.height / 2
+        }
+
         get width(): number {
             return this._width
         }

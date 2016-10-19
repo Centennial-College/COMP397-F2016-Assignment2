@@ -15,6 +15,7 @@ module scenes {
         // PRIVATE VARIABLES +++++++++++++++++++++++++++++++++++++++++++++++++
         private _gameButton: objects.Button;
         private _background: createjs.Bitmap
+        private _currentTetromino: objects.Tetromino
 
         // CONSTRUCTOR +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         constructor() {
@@ -38,6 +39,9 @@ module scenes {
             this._background = new createjs.Bitmap(assets.getResult('BG'))
             this.addChild(this._background)
 
+            this._currentTetromino = new objects.Square()
+            this.addChild(this._currentTetromino)
+
             // Create button for scene and add to Game Scene container. Register for onclick event
             this._gameButton = new objects.Button("Back", config.Screen.CENTER_X, config.Screen.CENTER_Y + 250);
             this.addChild(this._gameButton);
@@ -58,6 +62,7 @@ module scenes {
          */
         public update(): void {
             // Update objects
+            this._currentTetromino.update()
         }
 
 

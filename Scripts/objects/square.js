@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || function (d, b) {
  * @author Kevin Ma
  * @date Oct 18 2016
  * @description Square class represents square tetrominoes in the game of Tetris. This class extends Tetromino class
- * @version 0.3.0
+ * @version 0.3.0 - added tetromino abstract class and square tetromino class
  */
 var objects;
 (function (objects) {
@@ -16,9 +16,15 @@ var objects;
         __extends(Square, _super);
         //instance variables
         //constructor
-        function Square(imageString, life, directionFacing) {
-            _super.call(this, tetrominoAtlas, imageString, "");
+        function Square() {
+            _super.call(this, "squareTetromino");
         }
+        //properties
+        //public methods
+        Square.prototype.update = function () {
+            console.log(this.speed);
+            this.y += this.speed;
+        };
         return Square;
     }(objects.Tetromino));
     objects.Square = Square;

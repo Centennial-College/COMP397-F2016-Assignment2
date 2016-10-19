@@ -9,7 +9,7 @@ var __extends = (this && this.__extends) || function (d, b) {
  * @studentID 300867968
  * @date Oct 18 2016
  * @description GameObject class represents any game object in the game.
- * @version 0.1.0
+ * @version 0.3.0
  */
 var objects;
 (function (objects) {
@@ -20,8 +20,22 @@ var objects;
             this._initialize(imageString);
             this.start();
         }
-        Object.defineProperty(GameObject.prototype, "width", {
+        Object.defineProperty(GameObject.prototype, "halfWidth", {
             // PUBLIC PROPERTIES
+            get: function () {
+                return this.width / 2;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(GameObject.prototype, "halfHeight", {
+            get: function () {
+                return this.height / 2;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(GameObject.prototype, "width", {
             get: function () {
                 return this._width;
             },
