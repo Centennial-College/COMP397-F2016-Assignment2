@@ -18,6 +18,7 @@ var scene;
 var menuScene;
 var gameScene;
 var gameOverScene;
+var tetrominoAtlas;
 // Preload Assets required
 var assetData = [
     { id: "Start", src: "../../Assets/images/Start.png" },
@@ -57,6 +58,17 @@ function init() {
     // Set FPS for game and register for "tick" callback function
     createjs.Ticker.framerate = config.Game.FPS;
     createjs.Ticker.on("tick", this.gameLoop, this);
+    tetrominoAtlas = new createjs.SpriteSheet({
+        "images": [
+            "tetrominoAtlas.png"
+        ],
+        "frames": [
+            [1, 1, 40, 40, 0, 0, 0]
+        ],
+        "animations": {
+            "squareTetromino": { "frames": [0] }
+        }
+    });
     // Set initial scene to MENU scene and call changeScene().
     scene = config.Scene.MENU;
     changeScene();

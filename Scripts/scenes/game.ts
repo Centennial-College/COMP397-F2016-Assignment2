@@ -4,7 +4,7 @@
  * @studentID 300867968
  * @date: September 23, 2016
  * @description: Game scene that contains all assets and functionality associated with the game itself
- * @version 0.1.0
+ * @version 0.2.0 added simple background to scene
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -13,8 +13,8 @@ module scenes {
     export class Game extends objects.Scene {
 
         // PRIVATE VARIABLES +++++++++++++++++++++++++++++++++++++++++++++++++
-        private _gameLabel: objects.Label;
         private _gameButton: objects.Button;
+        private _background: createjs.Bitmap
 
         // CONSTRUCTOR +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         constructor() {
@@ -35,12 +35,11 @@ module scenes {
             // Add objects to the scene
             console.log("Game scene started");
 
-            // Create Label for scene and add to Game Scene container
-            this._gameLabel = new objects.Label("PLAY SCENE", "60px Consolar", "#000000", config.Screen.CENTER_X, config.Screen.CENTER_Y);
-            this.addChild(this._gameLabel);
+            this._background = new createjs.Bitmap(assets.getResult('BG'))
+            this.addChild(this._background)
 
             // Create button for scene and add to Game Scene container. Register for onclick event
-            this._gameButton = new objects.Button("Back", config.Screen.CENTER_X, config.Screen.CENTER_Y + 180);
+            this._gameButton = new objects.Button("Back", config.Screen.CENTER_X, config.Screen.CENTER_Y + 250);
             this.addChild(this._gameButton);
             this._gameButton.on("click", this._onBackButtonClick, this);
 
