@@ -12,15 +12,18 @@ module objects {
         //constructor
         constructor() {
             super("squareTetromino")
+
+            //start square in middle (columns 5 and 6)
+            this.x = 513
+            this.y = 75
         }
         //properties
 
         //public methods
         public update(): void {
-            console.log(this.speed);
-
-            this.y += this.speed
+            this.moveDown()
         }
         //private methods
+       
     }
 }

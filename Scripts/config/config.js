@@ -4,7 +4,7 @@
  * @studentID 300867968
  * @date: October 18, 2016
  * @description: This file is used to store globally accessible values and states for the game.
- * @version 0.1.0
+ * @version 0.4.0 - implemented moving down, left and right for tetrominoes
  */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 var config;
@@ -32,9 +32,21 @@ var config;
         function Game() {
         }
         Game.FPS = 60;
+        Game.BLOCKSIZE = 20;
         return Game;
     }());
     config.Game = Game;
+    var Controls = (function () {
+        function Controls() {
+        }
+        Controls.ARROW_KEY_LEFT = 37;
+        Controls.ARROW_KEY_RIGHT = 39;
+        Controls.ARROW_KEY_UP = 38;
+        Controls.ARROW_KEY_DOWN = 40;
+        Controls.SPACE_KEY = 32;
+        return Controls;
+    }());
+    config.Controls = Controls;
 })(config || (config = {}));
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */ 
 //# sourceMappingURL=config.js.map

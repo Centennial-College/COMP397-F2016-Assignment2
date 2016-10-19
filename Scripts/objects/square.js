@@ -18,12 +18,14 @@ var objects;
         //constructor
         function Square() {
             _super.call(this, "squareTetromino");
+            //start square in middle (columns 5 and 6)
+            this.x = 513;
+            this.y = 75;
         }
         //properties
         //public methods
         Square.prototype.update = function () {
-            console.log(this.speed);
-            this.y += this.speed;
+            this.moveDown();
         };
         return Square;
     }(objects.Tetromino));

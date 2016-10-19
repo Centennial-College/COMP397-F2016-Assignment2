@@ -44,7 +44,7 @@ module scenes {
 
             this._background.cache(bitmapBounds.x, bitmapBounds.y, bitmapBounds.width, bitmapBounds.height);
 
-            this._menuLabel = new objects.Label("Welcome to Menu Scene", "40px Arial", "#00008b", config.Screen.CENTER_X, config.Screen.CENTER_Y);
+            this._menuLabel = new objects.Label("TETRIS", "40px Arial", "#00008b", config.Screen.CENTER_X, config.Screen.CENTER_Y);
             this.addChild(this._menuLabel);
 
             // Add button to scene. Register for click callback function

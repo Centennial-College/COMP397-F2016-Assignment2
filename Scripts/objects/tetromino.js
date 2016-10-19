@@ -31,13 +31,19 @@ var objects;
             //center registration point
             this.regX = this.halfWidth;
             this.regY = this.halfHeight;
-            //start square in middle (columns 5 and 6)
-            this.x = 513;
-            this.y = 75;
             //all tetrominoes have default speed
-            this._speed = 1;
+            this._speed = 60;
         };
         Tetromino.prototype.update = function () { };
+        Tetromino.prototype.moveDown = function () {
+            this.y = this.y + config.Game.BLOCKSIZE;
+        };
+        Tetromino.prototype.moveRight = function () {
+        };
+        Tetromino.prototype.moveLeft = function () {
+            console.log('moving left');
+        };
+        Tetromino.prototype.rotate = function () { };
         return Tetromino;
     }(objects.GameObject));
     objects.Tetromino = Tetromino;

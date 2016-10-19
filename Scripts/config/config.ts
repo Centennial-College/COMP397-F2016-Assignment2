@@ -4,7 +4,7 @@
  * @studentID 300867968
  * @date: October 18, 2016
  * @description: This file is used to store globally accessible values and states for the game.
- * @version 0.1.0
+ * @version 0.4.0 - implemented moving down, left and right for tetrominoes
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -25,6 +25,14 @@ module config {
 
     export class Game {
         public static FPS: number = 60;
+        public static BLOCKSIZE: number = 20
+    }
+    export class Controls {
+        public static ARROW_KEY_LEFT: number = 37
+        public static ARROW_KEY_RIGHT: number = 39
+        public static ARROW_KEY_UP: number = 38
+        public static ARROW_KEY_DOWN: number = 40
+        public static SPACE_KEY: number = 32
     }
 }
 

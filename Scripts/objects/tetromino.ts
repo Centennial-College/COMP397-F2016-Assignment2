@@ -26,14 +26,23 @@ module objects {
             this.regX = this.halfWidth
             this.regY = this.halfHeight
 
-            //start square in middle (columns 5 and 6)
-            this.x = 513
-            this.y = 75
-
             //all tetrominoes have default speed
-            this._speed = 1
+            this._speed = 60
         }
         public update(): void { }
+
+        public moveDown(): void {
+            this.y = this.y + config.Game.BLOCKSIZE
+        }
+        public moveRight(): void {
+
+        }
+        public moveLeft(): void {
+            console.log('moving left');
+
+        }
+
+        public rotate(): void { }
 
         //private methods
     }
