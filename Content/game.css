@@ -8,6 +8,10 @@
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+@font-face {
+    font-family: custfont;
+    src: url(../Assets/fonts/MyGirlIsRetroDEMO.ttf);
+}
 
 body {
     background-color: darkgrey;

@@ -12,7 +12,8 @@ module scenes {
     export class Game extends objects.Scene {
 
         // PRIVATE VARIABLES +++++++++++++++++++++++++++++++++++++++++++++++++
-        private _gameButton: objects.Button;
+        private _returnBtn: objects.Button;
+        private _restartBtn: objects.Button;
         private _background: createjs.Bitmap
         private _currentTetromino: objects.Tetromino
         private _updateCounter: number
@@ -62,9 +63,16 @@ module scenes {
             this._createTetromino()
 
             // Create button for scene and add to Game Scene container. Register for onclick event
-            this._gameButton = new objects.Button("Back", config.Screen.CENTER_X, config.Screen.CENTER_Y + 250);
-            this.addChild(this._gameButton);
-            this._gameButton.on("click", this._onBackButtonClick, this);
+            this._returnBtn = new objects.Button("menuBtn", config.Screen.CENTER_X - 100, config.Screen.CENTER_Y + 245);
+            this._returnBtn.shadow = new createjs.Shadow('#000', 5, 5, 15)
+            this.addChild(this._returnBtn);
+            this._returnBtn.on("click", this._onBackButtonClick, this);
+
+            this._restartBtn = new objects.Button("restartBtn", config.Screen.CENTER_X + 100, config.Screen.CENTER_Y + 245);
+            this._restartBtn.shadow = new createjs.Shadow('#000', 5, 5, 15)
+            this.addChild(this._restartBtn);
+            this._restartBtn.on("click", this._onRestartButtonClick, this);
+
 
             this._displayGrid()
 
@@ -148,6 +156,10 @@ module scenes {
             // Set global variable to Menu Scene and call changescene function
             scene = config.Scene.MENU;
             changeScene();
+        }
+
+        private _onRestartButtonClick(event: createjs.MouseEvent) {
+            changeScene()
         }
 
         /**

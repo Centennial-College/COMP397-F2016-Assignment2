@@ -28,7 +28,10 @@ let tetrominoAtlas: createjs.SpriteSheet
 
 // Preload Assets required
 let assetData: objects.Asset[] = [
-    { id: "Start", src: "../../Assets/images/Start.png" },
+    { id: "startBtn", src: "../../Assets/images/startBtn.png" },
+    { id: "instructionBtn", src: "../../Assets/images/instructionBtn.png" },
+    { id: "menuBtn", src: "../../Assets/images/menuBtn.png" },
+    { id: "restartBtn", src: "../../Assets/images/restartBtn.png" },
     { id: "Back", src: "../../Assets/images/Back.png" },
     { id: "BG", src: "../../Assets/images/bg.png" },
     { id: "tetroSheet", src: "../../Assets/images/tetrominoAtlas.png" }

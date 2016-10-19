@@ -44,9 +44,14 @@ var scenes;
             this.addChild(this._background);
             this._createTetromino();
             // Create button for scene and add to Game Scene container. Register for onclick event
-            this._gameButton = new objects.Button("Back", config.Screen.CENTER_X, config.Screen.CENTER_Y + 250);
-            this.addChild(this._gameButton);
-            this._gameButton.on("click", this._onBackButtonClick, this);
+            this._returnBtn = new objects.Button("menuBtn", config.Screen.CENTER_X - 100, config.Screen.CENTER_Y + 245);
+            this._returnBtn.shadow = new createjs.Shadow('#000', 5, 5, 15);
+            this.addChild(this._returnBtn);
+            this._returnBtn.on("click", this._onBackButtonClick, this);
+            this._restartBtn = new objects.Button("restartBtn", config.Screen.CENTER_X + 100, config.Screen.CENTER_Y + 245);
+            this._restartBtn.shadow = new createjs.Shadow('#000', 5, 5, 15);
+            this.addChild(this._restartBtn);
+            this._restartBtn.on("click", this._onRestartButtonClick, this);
             this._displayGrid();
             // Add gamescene to main stage container. 
             stage.addChild(this);
@@ -136,6 +141,9 @@ var scenes;
         Game.prototype._onBackButtonClick = function (event) {
             // Set global variable to Menu Scene and call changescene function
             scene = config.Scene.MENU;
+            changeScene();
+        };
+        Game.prototype._onRestartButtonClick = function (event) {
             changeScene();
         };
         /**

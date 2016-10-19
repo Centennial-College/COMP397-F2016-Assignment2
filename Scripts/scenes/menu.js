@@ -38,12 +38,18 @@ var scenes;
             this._background.filters = [blurFilter];
             var bitmapBounds = this._background.getBounds();
             this._background.cache(bitmapBounds.x, bitmapBounds.y, bitmapBounds.width, bitmapBounds.height);
-            this._menuLabel = new objects.Label("TETRIS", "40px Arial", "#00008b", config.Screen.CENTER_X, config.Screen.CENTER_Y);
-            this.addChild(this._menuLabel);
+            this._titleLabel = new objects.Label("TETRIS", "100px custfont", "#0fc2d7", config.Screen.CENTER_X, config.Screen.CENTER_Y);
+            this._titleLabel.shadow = new createjs.Shadow('#000', 5, 5, 15);
+            this.addChild(this._titleLabel);
             // Add button to scene. Register for click callback function
-            this._menuButton = new objects.Button("Start", config.Screen.CENTER_X, config.Screen.CENTER_Y + 180);
-            this.addChild(this._menuButton);
-            this._menuButton.on("click", this._startButtonClick, this);
+            this._startBtn = new objects.Button("startBtn", config.Screen.CENTER_X, config.Screen.CENTER_Y + 80);
+            this._startBtn.shadow = new createjs.Shadow('#000', 5, 5, 15);
+            this.addChild(this._startBtn);
+            this._startBtn.on("click", this._startButtonClick, this);
+            this._instructionBtn = new objects.Button("instructionBtn", config.Screen.CENTER_X, config.Screen.CENTER_Y + 150);
+            this._instructionBtn.shadow = new createjs.Shadow('#000', 5, 5, 15);
+            this.addChild(this._instructionBtn);
+            this._instructionBtn.on("click", this._instructionBtnClick, this);
             // Add menu scene to global stage container
             stage.addChild(this);
         };
@@ -70,6 +76,11 @@ var scenes;
          * @return {void}
          */
         Menu.prototype._startButtonClick = function (event) {
+            // Change global scene variable to GAME. Call global changeScene() function
+            scene = config.Scene.GAME;
+            changeScene();
+        };
+        Menu.prototype._instructionBtnClick = function (event) {
             // Change global scene variable to GAME. Call global changeScene() function
             scene = config.Scene.GAME;
             changeScene();
