@@ -3,7 +3,7 @@
  * @author Kevin Ma
  * @date: Oct 20, 2016
  * @description: Game scene that contains all assets and functionality associated with the game itself
- * @version 0.6.0 - cleaned up code and added level and goal labels
+ * @version 0.7.0 - implemented self-updating hp bar to UI
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -28,7 +28,7 @@ module scenes {
         private _goalToNextLevel: number
 
         //HP
-        private _hp: number
+        private _hpPercent: number
         private _hpLabel: objects.Label
         private _hpBar: createjs.Shape
 
@@ -40,7 +40,6 @@ module scenes {
 
         //PUBLIC INSTANCE VARIABLES
 
-
         // CONSTRUCTOR +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         constructor() {
             super();
@@ -48,7 +47,7 @@ module scenes {
 
         // PUBLIC FUNCTIONS +++++++++++++++++++++++++++++++++++++++++++++++++
         /**
-         * This function creates the game objects and adds them to the stage
+         * This function prepares the game scene for the user to play
          * 
          * @public
          * @method start
@@ -82,13 +81,17 @@ module scenes {
          * @return {void}
          */
         public update(): void {
-            //tetromino has landed (collided with other block or hit bottom)
+            //tetromino has landed (killed or hit bottom)
             if (this._currentTetromino.dead) {
                 this.removeChild(this._currentTetromino)
                 this._goalToNextLevel--
                 this._goalLabel.text = "Goal\n" + this._goalToNextLevel
+                this._hpPercent -= 13
                 this._createTetromino()
             }
+
+            //update hpbar when enemy reached bottom and not shot dead
+            this._updateHpBar()
 
             //update square object 
             this._currentTetromino.update()
@@ -96,7 +99,6 @@ module scenes {
 
         // PRIVATE FUNCTIONS +++++++++++++++++++++++++++++++++++++++++++++++++
         private _createHpBar(): void {
-            this._hp = 100
             this._hpBar = new createjs.Shape();
             this._hpBar.x = 413
             this._hpBar.y = 480
@@ -105,9 +107,20 @@ module scenes {
             this._hpBar.graphics.drawRect(0, 0, 200, 15);
             this.addChild(this._hpBar);
         }
+        private _updateHpBar(): void {
+            this._hpBar.graphics.clear();
+            this._hpBar.graphics.beginFill('#0fc2d7');
+            this._hpBar.graphics.drawRect(0, 0, 200 * this._hpPercent / 100, 15);
+            this._hpBar.graphics.endFill();
+            this._hpBar.graphics.setStrokeStyle(2);
+            this._hpBar.graphics.beginStroke('#000');
+            this._hpBar.graphics.drawRect(0, 0, 200, 15);
+            this._hpBar.graphics.endStroke();
+        }
         private _initializeVariables(): void {
             this._currentLevel = 1
             this._goalToNextLevel = this._currentLevel * 10
+            this._hpPercent = 100
 
             // leftKeyDown = false
             // rightKeyDown = false
@@ -136,13 +149,18 @@ module scenes {
 
             this._levelLabel = new objects.Label("Level\n" + this._currentLevel, "25px custfont", "#0fc2d7", 405, 250);
             this._levelLabel.textAlign = 'center'
-            this._levelLabel.shadow = new createjs.Shadow('#000', 2, 2, 15)
+            this._levelLabel.shadow = new createjs.Shadow('#000', 2, 2, 2)
             this.addChild(this._levelLabel);
 
             this._goalLabel = new objects.Label("Goal\n" + this._goalToNextLevel, "25px custfont", "#0fc2d7", 405, 350);
             this._goalLabel.textAlign = 'center'
-            this._goalLabel.shadow = new createjs.Shadow('#000', 2, 2, 15)
+            this._goalLabel.shadow = new createjs.Shadow('#000', 2, 2, 2)
             this.addChild(this._goalLabel);
+
+            this._hpLabel = new objects.Label("HP", "25px custfont", "#0fc2d7", 400, 488);
+            this._hpLabel.textAlign = 'center'
+            this._hpLabel.shadow = new createjs.Shadow('#000', 2, 2, 2)
+            this.addChild(this._hpLabel);
 
             this._createHpBar()
         }
