@@ -1,9 +1,9 @@
 /**
  * @file game.ts
  * @author Kevin Ma
- * @date: Oct 18, 2016
+ * @date: Oct 20, 2016
  * @description: Game scene that contains all assets and functionality associated with the game itself
- * @version 0.4.0 - created 2D array for grid on game scene
+ * @version 0.5.0 - implemented square tetromino moving on its own
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -16,7 +16,13 @@ module scenes {
         private _restartBtn: objects.Button;
         private _background: createjs.Bitmap
         private _currentTetromino: objects.Tetromino
-        private _updateCounter: number
+        // private _updateCounter: number
+
+        private _titleLabel: objects.Label
+        private _levelLabel: objects.Label
+        private _goalLabel: objects.Label
+        private _hpLabel: objects.Label
+        private _currentLevel: number
 
         // private _leftKeyDown: boolean
         // private _rightKeyDown: boolean
@@ -47,7 +53,9 @@ module scenes {
             console.log("Game scene started");
 
             //initialize variables
-            this._updateCounter = 0
+            this._currentLevel = 1
+
+            // this._updateCounter = 0
             leftKeyDown = false
             rightKeyDown = false
             upKeyDown = false
@@ -72,6 +80,9 @@ module scenes {
             this.addChild(this._restartBtn);
             this._restartBtn.on("click", this._onRestartButtonClick, this);
 
+            this._titleLabel = new objects.Label("Blastimoes", "60px custfont", "#0fc2d7", config.Screen.CENTER_X, 50);
+            this._titleLabel.shadow = new createjs.Shadow('#000', 5, 5, 15)
+            this.addChild(this._titleLabel);
 
             this._displayGrid()
 
@@ -95,45 +106,49 @@ module scenes {
         public update(): void {
             //tetromino has landed (collided with other block or hit bottom)
             if (this._currentTetromino.dead) {
+                this.removeChild(this._currentTetromino)
                 this._createTetromino()
             }
 
-            //only update tetromino every interval to make it jump through the grid and not 
-            //continuous descend
-            this._updateCounter++
+            //update square object 
+            this._currentTetromino.update()
 
-            // if (this._updateCounter == this._currentTetromino.arrowControlSpeed) {
-            if (leftKeyDown) {
-                // console.log('goleft');
+            // //only update tetromino every interval to make it jump through the grid and not 
+            // //continuous descend
+            // this._updateCounter++
 
-                this._currentTetromino.moveLeft()
-            }
+            // // if (this._updateCounter == this._currentTetromino.arrowControlSpeed) {
+            // if (leftKeyDown) {
+            //     // console.log('goleft');
 
-            if (rightKeyDown) {
-                this._currentTetromino.moveRight()
-            }
-
-            if (downKeyDown) {
-                this._currentTetromino.moveDown()
-            }
-
-            if (spaceKeyDown) {
-                this._currentTetromino.hardDrop()
-            }
-
-            if (upKeyDown) {
-                this._currentTetromino.rotate()
-            }
+            //     this._currentTetromino.moveLeft()
             // }
 
-            // console.log(leftKeyDown);
-            if (this._updateCounter == this._currentTetromino.dropSpeed) {
+            // if (rightKeyDown) {
+            //     this._currentTetromino.moveRight()
+            // }
 
-                this._currentTetromino.update()
-                this._updateCounter = 0
+            // if (downKeyDown) {
+            //     this._currentTetromino.moveDown()
+            // }
 
-                //when square moves down, grid becomes true
-            }
+            // if (spaceKeyDown) {
+            //     this._currentTetromino.hardDrop()
+            // }
+
+            // if (upKeyDown) {
+            //     this._currentTetromino.rotate()
+            // }
+            // // }
+
+            // // console.log(leftKeyDown);
+            // if (this._updateCounter == this._currentTetromino.dropSpeed) {
+
+            //     this._currentTetromino.update()
+            //     this._updateCounter = 0
+
+            //     //when square moves down, grid becomes true
+            // }
         }
 
         // PRIVATE FUNCTIONS +++++++++++++++++++++++++++++++++++++++++++++++++
@@ -163,7 +178,7 @@ module scenes {
 
 
         private _createTetromino(): void {
-            this._currentTetromino = new objects.Square()
+            this._currentTetromino = new objects.Square(this._currentLevel)
             this.addChild(this._currentTetromino)
             // middle two cols are set to true when square created
             grid[0][4] = grid[0][5] = true

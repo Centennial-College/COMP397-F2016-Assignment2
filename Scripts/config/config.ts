@@ -2,9 +2,9 @@
  * @file config.ts
  * @author Kevin Ma kma45@my.centennialcollege.ca
  * @studentID 300867968
- * @date: October 18, 2016
+ * @date: October 20, 2016
  * @description: This file is used to store globally accessible values and states for the game.
- * @version 0.4.0 - implemented moving down, left and right for tetrominoes
+ * @version 0.5.0 - implemented square tetromino moving on its own
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -25,7 +25,6 @@ module config {
 
     export class Game {
         public static FPS: number = 60;
-        public static BLOCKSIZE: number = 20
     }
     export class Controls {
         public static ARROW_KEY_LEFT: number = 37

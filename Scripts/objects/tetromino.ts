@@ -1,30 +1,50 @@
 /**
  * @file tetromino.ts
  * @author Kevin Ma 
- * @date Oct 18 2016
- * @description Tetromino class represents any tetromino block in the game 
- * @version 0.3.0
+ * @date Oct 20 2016
+ * @description Tetromino class represents any tetromino block in the game. All 7 types of tetrominoes will extend this class
+ * @version 0.5.0 - implemented square tetromino moving on its own
  */
 module objects {
     export abstract class Tetromino extends objects.GameObject {
         //instance variables
-        private _dropSpeed: number
-        private _arrowControlSpeed: number
-        private _rotationSide: number
+        //used for spawning new enemies
         private _dead: boolean
-        private _canMove: boolean
+
+        //used for automating square dynamics
+        //block only goes down so dont need yDir
+        private _ySpeed: number
+        private _xSpeed: number
+        private _xDir: number
+        private _levelMultiplier: number
 
         //constructor
-        constructor(imageString: string) {
+        constructor(imageString: string, multiplier: number) {
             super(tetrominoAtlas, imageString, "")
-            this.dead = false
+            this._levelMultiplier = multiplier
         }
         //properties
-        get dropSpeed(): number {
-            return this._dropSpeed
+        get levelMultiplier(): number {
+            return this._levelMultiplier
         }
-        get arrowControlSpeed(): number {
-            return this._arrowControlSpeed
+        get ySpeed(): number {
+            return this._ySpeed
+        }
+        set ySpeed(y: number) {
+            this._ySpeed = y
+        }
+
+        get xSpeed(): number {
+            return this._xSpeed
+        }
+        set xSpeed(x: number) {
+            this._xSpeed = x
+        }
+        get xDir(): number {
+            return this._xDir
+        }
+        set xDir(x: number) {
+            this._xDir = x
         }
         get dead(): boolean {
             return this._dead
@@ -35,58 +55,42 @@ module objects {
 
         //public methods
         public start(): void {
+            this._intiailize()
+        }
+
+        abstract update(): void
+        abstract move(): void
+        abstract checkCollision(): void
+
+        //These methods randomize the x speed and y speed that block is moving
+        public randomizeXSpeed(): void {
+            this.xSpeed = (Math.random() * 5) + 1
+        }
+
+        public randomizeYSpeed(): void {
+            this.ySpeed = (Math.random() * 1) + 0.1
+        }
+
+        //private methods
+        /**
+         * Iniitalizes the values of the tetromino
+         * 
+         * @private
+         * 
+         * @memberOf Tetromino
+         */
+        private _intiailize(): void {
             //center registration point
             this.regX = this.halfWidth
             this.regY = this.halfHeight
 
-            //all tetrominoes have default speed
-            this._dropSpeed = 60
-            this._arrowControlSpeed = 15
-        }
-        public update(): void { }
+            this.dead = false
 
-        public move(keyPressed: number): void {
-            switch (keyPressed) {
-                case config.Controls.ARROW_KEY_LEFT:
-                    this.moveLeft()
-                    break;
-                case config.Controls.ARROW_KEY_RIGHT:
-                    this.moveLeft()
-                    break;
-                case config.Controls.ARROW_KEY_DOWN:
-                    this.hardDrop()
-                    break
-                case config.Controls.SPACE_KEY:
-                    this.moveDown()
-                    break;
-            }
-            this.checkCollision(keyPressed)
-        }
 
-        public moveDown(): void {
-            this.y = this.y + config.Game.BLOCKSIZE
-            this.checkCollision(config.Controls.ARROW_KEY_DOWN)
+            //randomized speed everytime the tetromino is spawned
+            this.randomizeXSpeed()
+            this.randomizeYSpeed()
+            this.xDir = 1
         }
-        public moveRight(): void {
-            this.x += config.Game.BLOCKSIZE
-            this.checkCollision(config.Controls.ARROW_KEY_RIGHT)
-        }
-        public moveLeft(): void {
-            // console.log('moving left');
-            this.x -= config.Game.BLOCKSIZE
-            this.checkCollision(config.Controls.ARROW_KEY_LEFT)
-        }
-
-        public hardDrop(): void {
-            this.y = this.y + 600
-            this.checkCollision(config.Controls.ARROW_KEY_DOWN)
-        }
-
-        public rotate(): void {
-            this.rotation = 90
-        }
-
-        public abstract checkCollision(keyPressed: number): void
-        //private methods
     }
 }

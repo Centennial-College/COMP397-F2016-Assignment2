@@ -3,7 +3,7 @@
  * @author Kevin Ma
  * @date: Oct 18, 2016
  * @description: This file contains all assets and functionality associated with the menu itself.
- * @version 0.2.0 added simple background to scene
+ * @version 0.5.0 - implemented square tetromino moving on its own
  */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -38,7 +38,7 @@ var scenes;
             this._background.filters = [blurFilter];
             var bitmapBounds = this._background.getBounds();
             this._background.cache(bitmapBounds.x, bitmapBounds.y, bitmapBounds.width, bitmapBounds.height);
-            this._titleLabel = new objects.Label("TETRIS", "100px custfont", "#0fc2d7", config.Screen.CENTER_X, config.Screen.CENTER_Y);
+            this._titleLabel = new objects.Label("BLASTIMOES", "100px custfont", "#0fc2d7", config.Screen.CENTER_X, config.Screen.CENTER_Y);
             this._titleLabel.shadow = new createjs.Shadow('#000', 5, 5, 15);
             this.addChild(this._titleLabel);
             // Add button to scene. Register for click callback function
