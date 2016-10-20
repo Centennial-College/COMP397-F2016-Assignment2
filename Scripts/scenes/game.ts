@@ -18,16 +18,14 @@ module scenes {
         private _currentTetromino: objects.Tetromino
         private _updateCounter: number
 
-        private _leftKeyDown: boolean
-        private _rightKeyDown: boolean
-        private _upKeyDown: boolean
-        private _downKeyDown: boolean
-        private _spaceKeyDown: boolean
+        // private _leftKeyDown: boolean
+        // private _rightKeyDown: boolean
+        // private _upKeyDown: boolean
+        // private _downKeyDown: boolean
+        // private _spaceKeyDown: boolean
 
         //PUBLIC INSTANCE VARIABLES
-        //2D array grid to store avail spaces/taken spaces
-        //must be public so that tetromino classes can update grid accordingly
-        public _grid: boolean[][]
+
 
         // CONSTRUCTOR +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         constructor() {
@@ -50,11 +48,12 @@ module scenes {
 
             //initialize variables
             this._updateCounter = 0
-            this._leftKeyDown = false
-            this._rightKeyDown = false
-            this._upKeyDown = false
-            this._downKeyDown = false
-            this._spaceKeyDown = false
+            leftKeyDown = false
+            rightKeyDown = false
+            upKeyDown = false
+            downKeyDown = false
+            spaceKeyDown = false
+
             this._initializeGrid()
 
             this._background = new createjs.Bitmap(assets.getResult('BG'))
@@ -94,21 +93,42 @@ module scenes {
          * @return {void}
          */
         public update(): void {
+            //tetromino has landed (collided with other block or hit bottom)
+            if (this._currentTetromino.dead) {
+                this._createTetromino()
+            }
+
             //only update tetromino every interval to make it jump through the grid and not 
             //continuous descend
             this._updateCounter++
 
-            console.log(this._leftKeyDown);
+            // if (this._updateCounter == this._currentTetromino.arrowControlSpeed) {
+            if (leftKeyDown) {
+                // console.log('goleft');
 
-
-            if (this._leftKeyDown) {
                 this._currentTetromino.moveLeft()
             }
-            if (this._rightKeyDown) {
+
+            if (rightKeyDown) {
                 this._currentTetromino.moveRight()
             }
 
-            if (this._updateCounter == this._currentTetromino.speed) {
+            if (downKeyDown) {
+                this._currentTetromino.moveDown()
+            }
+
+            if (spaceKeyDown) {
+                this._currentTetromino.hardDrop()
+            }
+
+            if (upKeyDown) {
+                this._currentTetromino.rotate()
+            }
+            // }
+
+            // console.log(leftKeyDown);
+            if (this._updateCounter == this._currentTetromino.dropSpeed) {
+
                 this._currentTetromino.update()
                 this._updateCounter = 0
 
@@ -118,21 +138,26 @@ module scenes {
 
         // PRIVATE FUNCTIONS +++++++++++++++++++++++++++++++++++++++++++++++++
         private _moveTetrimo(evt): void {
+            console.log(evt.keyCode);
+
             switch (evt.keyCode) {
-                case config.Controls.ARROW_KEY_LEFT: this._leftKeyDown = true; break;
-                case config.Controls.ARROW_KEY_RIGHT: this._rightKeyDown = true; break;
-                case config.Controls.ARROW_KEY_UP: this._upKeyDown = true; break;
-                case config.Controls.ARROW_KEY_DOWN: this._downKeyDown = true; break;
-                case config.Controls.SPACE_KEY: this._spaceKeyDown = true; break;
+                case config.Controls.ARROW_KEY_LEFT: leftKeyDown = true; break;
+                case config.Controls.ARROW_KEY_RIGHT: rightKeyDown = true; break;
+                case config.Controls.ARROW_KEY_UP: upKeyDown = true; break;
+                case config.Controls.ARROW_KEY_DOWN: downKeyDown = true; break;
+                case config.Controls.SPACE_KEY: spaceKeyDown = true; break;
             }
+
+            console.log(leftKeyDown);
+
         }
         private _stopTetrimo(evt): void {
             switch (evt.keyCode) {
-                case config.Controls.ARROW_KEY_LEFT: this._leftKeyDown = false; break;
-                case config.Controls.ARROW_KEY_RIGHT: this._rightKeyDown = false; break;
-                case config.Controls.ARROW_KEY_UP: this._upKeyDown = false; break;
-                case config.Controls.ARROW_KEY_DOWN: this._downKeyDown = false; break;
-                case config.Controls.SPACE_KEY: this._spaceKeyDown = false; break;
+                case config.Controls.ARROW_KEY_LEFT: leftKeyDown = false; break;
+                case config.Controls.ARROW_KEY_RIGHT: rightKeyDown = false; break;
+                case config.Controls.ARROW_KEY_UP: upKeyDown = false; break;
+                case config.Controls.ARROW_KEY_DOWN: downKeyDown = false; break;
+                case config.Controls.SPACE_KEY: spaceKeyDown = false; break;
             }
         }
 
@@ -141,7 +166,7 @@ module scenes {
             this._currentTetromino = new objects.Square()
             this.addChild(this._currentTetromino)
             // middle two cols are set to true when square created
-            this._grid[0][4] = this._grid[0][5] = true
+            grid[0][4] = grid[0][5] = true
         }
         /**
          * This function changes the game to the menu scene
@@ -170,9 +195,9 @@ module scenes {
          * @memberOf Game
          */
         private _initializeGrid(): void {
-            this._grid = new Array(20)
+            grid = new Array(20)
             for (let row = 0; row < 20; row++) {
-                this._grid[row] = new Array(10)
+                grid[row] = new Array(10)
             }
             this._resetGrid()
         }
@@ -187,7 +212,7 @@ module scenes {
         private _resetGrid(): void {
             for (let row = 0; row < 20; row++) {
                 for (let col = 0; col < 10; col++) {
-                    this._grid[row][col] = false
+                    grid[row][col] = false
                 }
             }
         }
@@ -200,7 +225,7 @@ module scenes {
          * @memberOf Game
          */
         private _displayGrid(): void {
-            console.log(this._grid);
+            console.log(grid);
         }
     }
 }

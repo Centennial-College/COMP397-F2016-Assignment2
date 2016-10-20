@@ -18,6 +18,15 @@ var scene;
 var menuScene;
 var gameScene;
 var gameOverScene;
+//Control booleans
+var leftKeyDown;
+var rightKeyDown;
+var upKeyDown;
+var downKeyDown;
+var spaceKeyDown;
+//2D array grid to store avail spaces/taken spaces
+//must be public so that tetromino classes can update grid accordingly
+var grid;
 var tetrominoAtlas;
 // Preload Assets required
 var assetData = [

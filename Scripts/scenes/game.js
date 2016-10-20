@@ -15,6 +15,12 @@ var scenes;
 (function (scenes) {
     var Game = (function (_super) {
         __extends(Game, _super);
+        // private _leftKeyDown: boolean
+        // private _rightKeyDown: boolean
+        // private _upKeyDown: boolean
+        // private _downKeyDown: boolean
+        // private _spaceKeyDown: boolean
+        //PUBLIC INSTANCE VARIABLES
         // CONSTRUCTOR +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         function Game() {
             _super.call(this);
@@ -34,11 +40,11 @@ var scenes;
             console.log("Game scene started");
             //initialize variables
             this._updateCounter = 0;
-            this._leftKeyDown = false;
-            this._rightKeyDown = false;
-            this._upKeyDown = false;
-            this._downKeyDown = false;
-            this._spaceKeyDown = false;
+            leftKeyDown = false;
+            rightKeyDown = false;
+            upKeyDown = false;
+            downKeyDown = false;
+            spaceKeyDown = false;
             this._initializeGrid();
             this._background = new createjs.Bitmap(assets.getResult('BG'));
             this.addChild(this._background);
@@ -69,57 +75,75 @@ var scenes;
          * @return {void}
          */
         Game.prototype.update = function () {
+            //tetromino has landed (collided with other block or hit bottom)
+            if (this._currentTetromino.dead) {
+                this._createTetromino();
+            }
             //only update tetromino every interval to make it jump through the grid and not 
             //continuous descend
             this._updateCounter++;
-            console.log(this._leftKeyDown);
-            if (this._leftKeyDown) {
+            // if (this._updateCounter == this._currentTetromino.arrowControlSpeed) {
+            if (leftKeyDown) {
+                // console.log('goleft');
                 this._currentTetromino.moveLeft();
             }
-            if (this._rightKeyDown) {
+            if (rightKeyDown) {
                 this._currentTetromino.moveRight();
             }
-            if (this._updateCounter == this._currentTetromino.speed) {
+            if (downKeyDown) {
+                this._currentTetromino.moveDown();
+            }
+            if (spaceKeyDown) {
+                this._currentTetromino.hardDrop();
+            }
+            if (upKeyDown) {
+                this._currentTetromino.rotate();
+            }
+            // }
+            // console.log(leftKeyDown);
+            if (this._updateCounter == this._currentTetromino.dropSpeed) {
                 this._currentTetromino.update();
                 this._updateCounter = 0;
             }
         };
         // PRIVATE FUNCTIONS +++++++++++++++++++++++++++++++++++++++++++++++++
         Game.prototype._moveTetrimo = function (evt) {
+            console.log(evt.keyCode);
             switch (evt.keyCode) {
                 case config.Controls.ARROW_KEY_LEFT:
-                    this._leftKeyDown = true;
+                    leftKeyDown = true;
                     break;
                 case config.Controls.ARROW_KEY_RIGHT:
-                    this._rightKeyDown = true;
+                    rightKeyDown = true;
                     break;
                 case config.Controls.ARROW_KEY_UP:
-                    this._upKeyDown = true;
+                    upKeyDown = true;
                     break;
                 case config.Controls.ARROW_KEY_DOWN:
-                    this._downKeyDown = true;
+                    downKeyDown = true;
                     break;
                 case config.Controls.SPACE_KEY:
-                    this._spaceKeyDown = true;
+                    spaceKeyDown = true;
                     break;
             }
+            console.log(leftKeyDown);
         };
         Game.prototype._stopTetrimo = function (evt) {
             switch (evt.keyCode) {
                 case config.Controls.ARROW_KEY_LEFT:
-                    this._leftKeyDown = false;
+                    leftKeyDown = false;
                     break;
                 case config.Controls.ARROW_KEY_RIGHT:
-                    this._rightKeyDown = false;
+                    rightKeyDown = false;
                     break;
                 case config.Controls.ARROW_KEY_UP:
-                    this._upKeyDown = false;
+                    upKeyDown = false;
                     break;
                 case config.Controls.ARROW_KEY_DOWN:
-                    this._downKeyDown = false;
+                    downKeyDown = false;
                     break;
                 case config.Controls.SPACE_KEY:
-                    this._spaceKeyDown = false;
+                    spaceKeyDown = false;
                     break;
             }
         };
@@ -127,7 +151,7 @@ var scenes;
             this._currentTetromino = new objects.Square();
             this.addChild(this._currentTetromino);
             // middle two cols are set to true when square created
-            this._grid[0][4] = this._grid[0][5] = true;
+            grid[0][4] = grid[0][5] = true;
         };
         /**
          * This function changes the game to the menu scene
@@ -154,9 +178,9 @@ var scenes;
          * @memberOf Game
          */
         Game.prototype._initializeGrid = function () {
-            this._grid = new Array(20);
+            grid = new Array(20);
             for (var row = 0; row < 20; row++) {
-                this._grid[row] = new Array(10);
+                grid[row] = new Array(10);
             }
             this._resetGrid();
         };
@@ -170,7 +194,7 @@ var scenes;
         Game.prototype._resetGrid = function () {
             for (var row = 0; row < 20; row++) {
                 for (var col = 0; col < 10; col++) {
-                    this._grid[row][col] = false;
+                    grid[row][col] = false;
                 }
             }
         };
@@ -182,7 +206,7 @@ var scenes;
          * @memberOf Game
          */
         Game.prototype._displayGrid = function () {
-            console.log(this._grid);
+            console.log(grid);
         };
         return Game;
     }(objects.Scene));

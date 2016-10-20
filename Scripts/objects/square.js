@@ -27,6 +27,30 @@ var objects;
         Square.prototype.update = function () {
             this.moveDown();
         };
+        Square.prototype.checkCollision = function (keyPressed) {
+            switch (keyPressed) {
+                case config.Controls.ARROW_KEY_LEFT:
+                    // check left bounds 413
+                    if (this.x - config.Game.BLOCKSIZE < 413 + this.halfWidth) {
+                        this.x = 413 + this.halfWidth;
+                    }
+                    break;
+                case config.Controls.ARROW_KEY_RIGHT:
+                    // check right bounds 613
+                    if (this.x + config.Game.BLOCKSIZE > 613 - this.halfWidth) {
+                        this.x = 613 - this.halfWidth;
+                    }
+                    break;
+                case config.Controls.ARROW_KEY_DOWN:
+                case config.Controls.SPACE_KEY:
+                    if (this.y + config.Game.BLOCKSIZE > 455) {
+                        this.dead = true;
+                        this.y = 455;
+                    }
+                    break;
+            }
+            // upper bounds = 75
+        };
         return Square;
     }(objects.Tetromino));
     objects.Square = Square;

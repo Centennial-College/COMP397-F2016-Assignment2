@@ -24,6 +24,17 @@ let menuScene: scenes.Menu;
 let gameScene: scenes.Game;
 let gameOverScene: scenes.GameOver;
 
+//Control booleans
+let leftKeyDown: boolean
+let rightKeyDown: boolean
+let upKeyDown: boolean
+let downKeyDown: boolean
+let spaceKeyDown: boolean
+
+//2D array grid to store avail spaces/taken spaces
+//must be public so that tetromino classes can update grid accordingly
+let grid: boolean[][]
+
 let tetrominoAtlas: createjs.SpriteSheet
 
 // Preload Assets required
