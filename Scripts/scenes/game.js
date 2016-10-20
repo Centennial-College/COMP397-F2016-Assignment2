@@ -3,7 +3,7 @@
  * @author Kevin Ma
  * @date: Oct 20, 2016
  * @description: Game scene that contains all assets and functionality associated with the game itself
- * @version 0.5.0 - implemented square tetromino moving on its own
+ * @version 0.6.0 - cleaned up code and added level and goal labels
  */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -38,36 +38,14 @@ var scenes;
         Game.prototype.start = function () {
             // Add objects to the scene
             console.log("Game scene started");
-            //initialize variables
-            this._currentLevel = 1;
-            // this._updateCounter = 0
-            leftKeyDown = false;
-            rightKeyDown = false;
-            upKeyDown = false;
-            downKeyDown = false;
-            spaceKeyDown = false;
-            this._initializeGrid();
-            this._background = new createjs.Bitmap(assets.getResult('BG'));
-            this.addChild(this._background);
+            this._initializeVariables();
+            this._initializeUI();
             this._createTetromino();
-            // Create button for scene and add to Game Scene container. Register for onclick event
-            this._returnBtn = new objects.Button("menuBtn", config.Screen.CENTER_X - 100, config.Screen.CENTER_Y + 245);
-            this._returnBtn.shadow = new createjs.Shadow('#000', 5, 5, 15);
-            this.addChild(this._returnBtn);
-            this._returnBtn.on("click", this._onBackButtonClick, this);
-            this._restartBtn = new objects.Button("restartBtn", config.Screen.CENTER_X + 100, config.Screen.CENTER_Y + 245);
-            this._restartBtn.shadow = new createjs.Shadow('#000', 5, 5, 15);
-            this.addChild(this._restartBtn);
-            this._restartBtn.on("click", this._onRestartButtonClick, this);
-            this._titleLabel = new objects.Label("Blastimoes", "60px custfont", "#0fc2d7", config.Screen.CENTER_X, 50);
-            this._titleLabel.shadow = new createjs.Shadow('#000', 5, 5, 15);
-            this.addChild(this._titleLabel);
-            this._displayGrid();
             // Add gamescene to main stage container. 
             stage.addChild(this);
             //handle keys
-            window.onkeydown = this._moveTetrimo;
-            window.onkeyup = this._stopTetrimo;
+            // window.onkeydown = this._moveTetrimo
+            // window.onkeyup = this._stopTetrimo
         };
         /**
          * This function updates the objects contained in the game scene
@@ -82,84 +60,63 @@ var scenes;
             //tetromino has landed (collided with other block or hit bottom)
             if (this._currentTetromino.dead) {
                 this.removeChild(this._currentTetromino);
+                this._goalToNextLevel--;
+                this._goalLabel.text = "Goal\n" + this._goalToNextLevel;
                 this._createTetromino();
             }
             //update square object 
             this._currentTetromino.update();
-            // //only update tetromino every interval to make it jump through the grid and not 
-            // //continuous descend
-            // this._updateCounter++
-            // // if (this._updateCounter == this._currentTetromino.arrowControlSpeed) {
-            // if (leftKeyDown) {
-            //     // console.log('goleft');
-            //     this._currentTetromino.moveLeft()
-            // }
-            // if (rightKeyDown) {
-            //     this._currentTetromino.moveRight()
-            // }
-            // if (downKeyDown) {
-            //     this._currentTetromino.moveDown()
-            // }
-            // if (spaceKeyDown) {
-            //     this._currentTetromino.hardDrop()
-            // }
-            // if (upKeyDown) {
-            //     this._currentTetromino.rotate()
-            // }
-            // // }
-            // // console.log(leftKeyDown);
-            // if (this._updateCounter == this._currentTetromino.dropSpeed) {
-            //     this._currentTetromino.update()
-            //     this._updateCounter = 0
-            //     //when square moves down, grid becomes true
-            // }
         };
         // PRIVATE FUNCTIONS +++++++++++++++++++++++++++++++++++++++++++++++++
-        Game.prototype._moveTetrimo = function (evt) {
-            console.log(evt.keyCode);
-            switch (evt.keyCode) {
-                case config.Controls.ARROW_KEY_LEFT:
-                    leftKeyDown = true;
-                    break;
-                case config.Controls.ARROW_KEY_RIGHT:
-                    rightKeyDown = true;
-                    break;
-                case config.Controls.ARROW_KEY_UP:
-                    upKeyDown = true;
-                    break;
-                case config.Controls.ARROW_KEY_DOWN:
-                    downKeyDown = true;
-                    break;
-                case config.Controls.SPACE_KEY:
-                    spaceKeyDown = true;
-                    break;
-            }
-            console.log(leftKeyDown);
+        Game.prototype._createHpBar = function () {
+            this._hp = 100;
+            this._hpBar = new createjs.Shape();
+            this._hpBar.x = 413;
+            this._hpBar.y = 480;
+            this._hpBar.graphics.setStrokeStyle(2);
+            this._hpBar.graphics.beginStroke('#000');
+            this._hpBar.graphics.drawRect(0, 0, 200, 15);
+            this.addChild(this._hpBar);
         };
-        Game.prototype._stopTetrimo = function (evt) {
-            switch (evt.keyCode) {
-                case config.Controls.ARROW_KEY_LEFT:
-                    leftKeyDown = false;
-                    break;
-                case config.Controls.ARROW_KEY_RIGHT:
-                    rightKeyDown = false;
-                    break;
-                case config.Controls.ARROW_KEY_UP:
-                    upKeyDown = false;
-                    break;
-                case config.Controls.ARROW_KEY_DOWN:
-                    downKeyDown = false;
-                    break;
-                case config.Controls.SPACE_KEY:
-                    spaceKeyDown = false;
-                    break;
-            }
+        Game.prototype._initializeVariables = function () {
+            this._currentLevel = 1;
+            this._goalToNextLevel = this._currentLevel * 10;
+            // leftKeyDown = false
+            // rightKeyDown = false
+            // upKeyDown = false
+            // downKeyDown = false
+            // spaceKeyDown = false
+        };
+        Game.prototype._initializeUI = function () {
+            this._background = new createjs.Bitmap(assets.getResult('BG'));
+            this.addChild(this._background);
+            //Create and add UI labels and buttons to the container
+            this._returnBtn = new objects.Button("menuBtn", config.Screen.CENTER_X - 100, config.Screen.CENTER_Y + 245);
+            this._returnBtn.shadow = new createjs.Shadow('#000', 5, 5, 15);
+            this.addChild(this._returnBtn);
+            this._returnBtn.on("click", this._onBackButtonClick, this);
+            this._restartBtn = new objects.Button("restartBtn", config.Screen.CENTER_X + 100, config.Screen.CENTER_Y + 245);
+            this._restartBtn.shadow = new createjs.Shadow('#000', 5, 5, 15);
+            this.addChild(this._restartBtn);
+            this._restartBtn.on("click", this._onRestartButtonClick, this);
+            this._titleLabel = new objects.Label("Blastimoes", "60px custfont", "#0fc2d7", config.Screen.CENTER_X, 50);
+            this._titleLabel.shadow = new createjs.Shadow('#000', 5, 5, 15);
+            this.addChild(this._titleLabel);
+            this._levelLabel = new objects.Label("Level\n" + this._currentLevel, "25px custfont", "#0fc2d7", 405, 250);
+            this._levelLabel.textAlign = 'center';
+            this._levelLabel.shadow = new createjs.Shadow('#000', 2, 2, 15);
+            this.addChild(this._levelLabel);
+            this._goalLabel = new objects.Label("Goal\n" + this._goalToNextLevel, "25px custfont", "#0fc2d7", 405, 350);
+            this._goalLabel.textAlign = 'center';
+            this._goalLabel.shadow = new createjs.Shadow('#000', 2, 2, 15);
+            this.addChild(this._goalLabel);
+            this._createHpBar();
         };
         Game.prototype._createTetromino = function () {
             this._currentTetromino = new objects.Square(this._currentLevel);
             this.addChild(this._currentTetromino);
             // middle two cols are set to true when square created
-            grid[0][4] = grid[0][5] = true;
+            // grid[0][4] = grid[0][5] = true
         };
         /**
          * This function changes the game to the menu scene
@@ -175,46 +132,16 @@ var scenes;
             scene = config.Scene.MENU;
             changeScene();
         };
+        /**
+         * Changes scene to a new game scene since currentScene references game scene
+         *
+         * @private
+         * @param {createjs.MouseEvent} event
+         *
+         * @memberOf Game
+         */
         Game.prototype._onRestartButtonClick = function (event) {
             changeScene();
-        };
-        /**
-         * Initializes the grid to empty 2d array
-         *
-         * @private
-         *
-         * @memberOf Game
-         */
-        Game.prototype._initializeGrid = function () {
-            grid = new Array(20);
-            for (var row = 0; row < 20; row++) {
-                grid[row] = new Array(10);
-            }
-            this._resetGrid();
-        };
-        /**
-         * Changes all values for grid to false
-         *
-         * @private
-         *
-         * @memberOf Game
-         */
-        Game.prototype._resetGrid = function () {
-            for (var row = 0; row < 20; row++) {
-                for (var col = 0; col < 10; col++) {
-                    grid[row][col] = false;
-                }
-            }
-        };
-        /**
-         * Displays the contents of the grid in the console. For debugging purposes.
-         *
-         * @private
-         *
-         * @memberOf Game
-         */
-        Game.prototype._displayGrid = function () {
-            console.log(grid);
         };
         return Game;
     }(objects.Scene));

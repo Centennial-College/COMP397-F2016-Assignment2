@@ -4,7 +4,7 @@
  * @studentID 300867968
  * @date: September 20, 2016
  * @description: This file is the entry point for the game.
- * @version 0.3.0
+ * @version 0.6.0 - cleaned up code and added level and goal labels
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -43,7 +43,6 @@ let assetData: objects.Asset[] = [
     { id: "instructionBtn", src: "../../Assets/images/instructionBtn.png" },
     { id: "menuBtn", src: "../../Assets/images/menuBtn.png" },
     { id: "restartBtn", src: "../../Assets/images/restartBtn.png" },
-    { id: "Back", src: "../../Assets/images/Back.png" },
     { id: "BG", src: "../../Assets/images/bg.png" },
     { id: "tetroSheet", src: "../../Assets/images/tetrominoAtlas.png" }
 ];
