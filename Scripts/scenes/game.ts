@@ -3,7 +3,7 @@
  * @author Kevin Ma
  * @date: Oct 20, 2016
  * @description: Game scene that contains all assets and functionality associated with the game itself
- * @version 0.7.0 - implemented self-updating hp bar to UI
+ * @version 0.9.0 - implemented move functionality for player
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -12,10 +12,14 @@ module scenes {
     export class Game extends objects.Scene {
 
         // PRIVATE VARIABLES +++++++++++++++++++++++++++++++++++++++++++++++++
-        private _returnBtn: objects.Button;
-        private _restartBtn: objects.Button;
-        private _background: createjs.Bitmap
+        //game objects
         private _currentTetromino: objects.Tetromino
+        private _player: objects.Player
+
+        //UI 
+        private _background: createjs.Bitmap
+        private _restartBtn: objects.Button;
+        private _returnBtn: objects.Button;
 
         private _titleLabel: objects.Label
 
@@ -61,14 +65,14 @@ module scenes {
 
             this._initializeVariables()
             this._initializeUI()
-            this._createTetromino()
+            this._initializeGameObjects()
 
             // Add gamescene to main stage container. 
             stage.addChild(this);
 
             //handle keys
-            // window.onkeydown = this._moveTetrimo
-            // window.onkeyup = this._stopTetrimo
+            window.onkeydown = this._player.move
+            window.onkeyup = this._player.stop
         }
 
         /**
@@ -93,6 +97,9 @@ module scenes {
             //update hpbar when enemy reached bottom and not shot dead
             this._updateHpBar()
 
+            //update player
+            this._player.update()
+
             //update square object 
             this._currentTetromino.update()
         }
@@ -116,6 +123,11 @@ module scenes {
             this._hpBar.graphics.beginStroke('#000');
             this._hpBar.graphics.drawRect(0, 0, 200, 15);
             this._hpBar.graphics.endStroke();
+        }
+        private _initializeGameObjects(): void {
+            this._createTetromino()
+            this._player = new objects.Player()
+            this.addChild(this._player)
         }
         private _initializeVariables(): void {
             this._currentLevel = 1

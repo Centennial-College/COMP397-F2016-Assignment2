@@ -40,8 +40,6 @@ var config;
         }
         Controls.ARROW_KEY_LEFT = 37;
         Controls.ARROW_KEY_RIGHT = 39;
-        Controls.ARROW_KEY_UP = 38;
-        Controls.ARROW_KEY_DOWN = 40;
         Controls.SPACE_KEY = 32;
         return Controls;
     }());

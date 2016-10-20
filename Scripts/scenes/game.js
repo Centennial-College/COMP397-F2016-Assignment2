@@ -3,7 +3,7 @@
  * @author Kevin Ma
  * @date: Oct 20, 2016
  * @description: Game scene that contains all assets and functionality associated with the game itself
- * @version 0.7.0 - implemented self-updating hp bar to UI
+ * @version 0.9.0 - implemented move functionality for player
  */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -40,12 +40,12 @@ var scenes;
             console.log("Game scene started");
             this._initializeVariables();
             this._initializeUI();
-            this._createTetromino();
+            this._initializeGameObjects();
             // Add gamescene to main stage container. 
             stage.addChild(this);
             //handle keys
-            // window.onkeydown = this._moveTetrimo
-            // window.onkeyup = this._stopTetrimo
+            window.onkeydown = this._player.move;
+            window.onkeyup = this._player.stop;
         };
         /**
          * This function updates the objects contained in the game scene
@@ -67,6 +67,8 @@ var scenes;
             }
             //update hpbar when enemy reached bottom and not shot dead
             this._updateHpBar();
+            //update player
+            this._player.update();
             //update square object 
             this._currentTetromino.update();
         };
@@ -89,6 +91,11 @@ var scenes;
             this._hpBar.graphics.beginStroke('#000');
             this._hpBar.graphics.drawRect(0, 0, 200, 15);
             this._hpBar.graphics.endStroke();
+        };
+        Game.prototype._initializeGameObjects = function () {
+            this._createTetromino();
+            this._player = new objects.Player();
+            this.addChild(this._player);
         };
         Game.prototype._initializeVariables = function () {
             this._currentLevel = 1;

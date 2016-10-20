@@ -29,8 +29,6 @@ module config {
     export class Controls {
         public static ARROW_KEY_LEFT: number = 37
         public static ARROW_KEY_RIGHT: number = 39
-        public static ARROW_KEY_UP: number = 38
-        public static ARROW_KEY_DOWN: number = 40
         public static SPACE_KEY: number = 32
     }
 }
