@@ -16,7 +16,7 @@ var objects;
         __extends(Tetromino, _super);
         //constructor
         function Tetromino(imageString, multiplier) {
-            _super.call(this, tetrominoAtlas, imageString, "");
+            _super.call(this, blastimoesAtlas, imageString, "");
             this._levelMultiplier = multiplier;
         }
         Object.defineProperty(Tetromino.prototype, "levelMultiplier", {

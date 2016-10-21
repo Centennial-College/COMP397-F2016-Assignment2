@@ -1,0 +1,25 @@
+{
+
+"images": [
+    "blastimoesAtlas.png"
+],
+
+"frames": [
+    [1, 1, 40, 40, 0, 0, 0],
+    [43, 1, 10, 20, 0, 0, 0],
+    [43, 23, 9, 18, 0, 0, 0],
+    [54, 23, 9, 15, 0, 0, 0],
+    [55, 1, 8, 13, 0, 0, 0]
+],
+
+"animations": {
+    "squareTetromino": { "frames": [0] },
+    "bullet1": { "frames": [4, 3, 2, 1] }
+},
+
+"texturepacker": [
+        "SmartUpdateHash: $TexturePacker:SmartUpdate:29848e1c410047b06114b1774ab7e18f:5f657eea27657df2c6488f43045644c9:30425fc30a06b3f775c6b91a3d9204ff$",
+        "Created with TexturePacker (https://www.codeandweb.com/texturepacker) for EaselJS"
+]
+
+}

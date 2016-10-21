@@ -27,15 +27,9 @@ let gameOverScene: scenes.GameOver;
 //Control booleans
 let leftKeyDown: boolean
 let rightKeyDown: boolean
-let upKeyDown: boolean
-let downKeyDown: boolean
 let spaceKeyDown: boolean
 
-//2D array grid to store avail spaces/taken spaces
-//must be public so that tetromino classes can update grid accordingly
-let grid: boolean[][]
-
-let tetrominoAtlas: createjs.SpriteSheet
+let blastimoesAtlas: createjs.SpriteSheet
 
 // Preload Assets required
 let assetData: objects.Asset[] = [
@@ -44,7 +38,7 @@ let assetData: objects.Asset[] = [
     { id: "menuBtn", src: "../../Assets/images/menuBtn.png" },
     { id: "restartBtn", src: "../../Assets/images/restartBtn.png" },
     { id: "BG", src: "../../Assets/images/bg.png" },
-    { id: "tetroSheet", src: "../../Assets/images/tetrominoAtlas.png" }
+    { id: "blastimoesSheet", src: "../../Assets/images/blastimoesAtlas.png" }
 ];
 
 /**
@@ -84,20 +78,28 @@ function init(): void {
     createjs.Ticker.framerate = config.Game.FPS;
     createjs.Ticker.on("tick", this.gameLoop, this);
 
-    tetrominoAtlas = new createjs.SpriteSheet(
+    blastimoesAtlas = new createjs.SpriteSheet(
         {
+
             "images": [
-                assets.getResult('tetroSheet')
+                assets.getResult('blastimoesSheet')
             ],
 
             "frames": [
-                [1, 1, 40, 40, 0, 0, 0]
+                [1, 1, 40, 40, 0, 0, 0],
+                [43, 1, 10, 20, 0, 0, 0],
+                [43, 23, 9, 18, 0, 0, 0],
+                [54, 23, 9, 15, 0, 0, 0],
+                [55, 1, 8, 13, 0, 0, 0]
             ],
 
             "animations": {
-                "squareTetromino": { "frames": [0] }
-            }
+                "squareTetromino": { "frames": [0] },
+                "bullet1": { "frames": [4, 3, 2, 1] }
+            },
+
         }
+
     )
 
     // Set initial scene to MENU scene and call changeScene().

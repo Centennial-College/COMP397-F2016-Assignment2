@@ -21,13 +21,8 @@ var gameOverScene;
 //Control booleans
 var leftKeyDown;
 var rightKeyDown;
-var upKeyDown;
-var downKeyDown;
 var spaceKeyDown;
-//2D array grid to store avail spaces/taken spaces
-//must be public so that tetromino classes can update grid accordingly
-var grid;
-var tetrominoAtlas;
+var blastimoesAtlas;
 // Preload Assets required
 var assetData = [
     { id: "startBtn", src: "../../Assets/images/startBtn.png" },
@@ -35,7 +30,7 @@ var assetData = [
     { id: "menuBtn", src: "../../Assets/images/menuBtn.png" },
     { id: "restartBtn", src: "../../Assets/images/restartBtn.png" },
     { id: "BG", src: "../../Assets/images/bg.png" },
-    { id: "tetroSheet", src: "../../Assets/images/tetrominoAtlas.png" }
+    { id: "blastimoesSheet", src: "../../Assets/images/blastimoesAtlas.png" }
 ];
 /**
  * This method is used to preload all the assets required for the game
@@ -68,16 +63,21 @@ function init() {
     // Set FPS for game and register for "tick" callback function
     createjs.Ticker.framerate = config.Game.FPS;
     createjs.Ticker.on("tick", this.gameLoop, this);
-    tetrominoAtlas = new createjs.SpriteSheet({
+    blastimoesAtlas = new createjs.SpriteSheet({
         "images": [
-            assets.getResult('tetroSheet')
+            assets.getResult('blastimoesSheet')
         ],
         "frames": [
-            [1, 1, 40, 40, 0, 0, 0]
+            [1, 1, 40, 40, 0, 0, 0],
+            [43, 1, 10, 20, 0, 0, 0],
+            [43, 23, 9, 18, 0, 0, 0],
+            [54, 23, 9, 15, 0, 0, 0],
+            [55, 1, 8, 13, 0, 0, 0]
         ],
         "animations": {
-            "squareTetromino": { "frames": [0] }
-        }
+            "squareTetromino": { "frames": [0] },
+            "bullet1": { "frames": [4, 3, 2, 1] }
+        },
     });
     // Set initial scene to MENU scene and call changeScene().
     scene = config.Scene.MENU;

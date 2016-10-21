@@ -20,7 +20,7 @@ module objects {
 
         //constructor
         constructor(imageString: string, multiplier: number) {
-            super(tetrominoAtlas, imageString, "")
+            super(blastimoesAtlas, imageString, "")
             this._levelMultiplier = multiplier
         }
         //properties
