@@ -17,6 +17,7 @@ var objects;
         __extends(GameObject, _super);
         function GameObject(atlas, imageString, deathAnimString) {
             _super.call(this, atlas, imageString);
+            this.deathAnimString = deathAnimString;
             this._initialize(imageString);
             this.start();
         }

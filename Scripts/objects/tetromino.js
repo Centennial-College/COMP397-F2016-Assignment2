@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || function (d, b) {
  * @author Kevin Ma
  * @date Oct 20 2016
  * @description Tetromino class represents any tetromino block in the game. All 7 types of tetrominoes will extend this class
- * @version 0.5.0 - implemented square tetromino moving on its own
+ * @version 0.12.0 - successfully checked collision between bullet and squareTetromino
  */
 var objects;
 (function (objects) {
@@ -16,7 +16,7 @@ var objects;
         __extends(Tetromino, _super);
         //constructor
         function Tetromino(imageString, multiplier) {
-            _super.call(this, blastimoesAtlas, imageString, "");
+            _super.call(this, blastimoesAtlas, imageString, "explosion");
             this._levelMultiplier = multiplier;
         }
         Object.defineProperty(Tetromino.prototype, "levelMultiplier", {
@@ -57,12 +57,32 @@ var objects;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(Tetromino.prototype, "dead", {
+        Object.defineProperty(Tetromino.prototype, "isDead", {
             get: function () {
-                return this._dead;
+                return this._isDead;
             },
             set: function (d) {
-                this._dead = d;
+                this._isDead = d;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Tetromino.prototype, "isReadyToSpawn", {
+            get: function () {
+                return this._isReadyToSpawn;
+            },
+            set: function (r) {
+                this._isReadyToSpawn = r;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Tetromino.prototype, "isFinished", {
+            get: function () {
+                return this._isFinished;
+            },
+            set: function (f) {
+                this._isFinished = f;
             },
             enumerable: true,
             configurable: true
@@ -90,7 +110,9 @@ var objects;
             //center registration point
             this.regX = this.halfWidth;
             this.regY = this.halfHeight;
-            this.dead = false;
+            this.isDead = false;
+            this.isReadyToSpawn = true;
+            this.isFinished = false;
             //randomized speed everytime the tetromino is spawned
             this.randomizeXSpeed();
             this.randomizeYSpeed();

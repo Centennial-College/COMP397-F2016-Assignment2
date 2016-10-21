@@ -3,13 +3,15 @@
  * @author Kevin Ma 
  * @date Oct 20 2016
  * @description Tetromino class represents any tetromino block in the game. All 7 types of tetrominoes will extend this class
- * @version 0.5.0 - implemented square tetromino moving on its own
+ * @version 0.12.0 - successfully checked collision between bullet and squareTetromino
  */
 module objects {
     export abstract class Tetromino extends objects.GameObject {
         //instance variables
         //used for spawning new enemies
-        private _dead: boolean
+        private _isDead: boolean
+        private _isReadyToSpawn: boolean
+        private _isFinished: boolean
 
         //used for automating square dynamics
         //block only goes down so dont need yDir
@@ -20,7 +22,7 @@ module objects {
 
         //constructor
         constructor(imageString: string, multiplier: number) {
-            super(blastimoesAtlas, imageString, "")
+            super(blastimoesAtlas, imageString, "explosion")
             this._levelMultiplier = multiplier
         }
         //properties
@@ -46,11 +48,24 @@ module objects {
         set xDir(x: number) {
             this._xDir = x
         }
-        get dead(): boolean {
-            return this._dead
+        get isDead(): boolean {
+            return this._isDead
         }
-        set dead(d: boolean) {
-            this._dead = d
+        set isDead(d: boolean) {
+            this._isDead = d
+        }
+
+        get isReadyToSpawn(): boolean {
+            return this._isReadyToSpawn
+        }
+        set isReadyToSpawn(r: boolean) {
+            this._isReadyToSpawn = r
+        }
+        get isFinished(): boolean {
+            return this._isFinished
+        }
+        set isFinished(f: boolean) {
+            this._isFinished = f
         }
 
         //public methods
@@ -84,8 +99,9 @@ module objects {
             this.regX = this.halfWidth
             this.regY = this.halfHeight
 
-            this.dead = false
-
+            this.isDead = false
+            this.isReadyToSpawn = true
+            this.isFinished = false
 
             //randomized speed everytime the tetromino is spawned
             this.randomizeXSpeed()

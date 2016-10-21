@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || function (d, b) {
  * @author Kevin Ma
  * @date Oct 18 2016
  * @description Square class represents square tetrominoes in the game of Tetris. This class extends Tetromino class
- * @version 0.3.0 - added tetromino abstract class and square tetromino class
+ * @version 0.12.0 - successfully checked collision between bullet and squareTetromino
  */
 var objects;
 (function (objects) {
@@ -16,21 +16,38 @@ var objects;
         __extends(Square, _super);
         //instance variables
         //constructor
-        function Square(levelMultipler) {
+        function Square(levelMultipler, _deadAnimPlayedDuration) {
+            if (_deadAnimPlayedDuration === void 0) { _deadAnimPlayedDuration = 0; }
             _super.call(this, "squareTetromino", levelMultipler);
+            this._deadAnimPlayedDuration = _deadAnimPlayedDuration;
             //start square in middle (columns 5 and 6 of grid)
             this.x = 513;
             this.y = 75;
+            this._deadAnimPlayedDuration = 0;
         }
         //properties
         //public methods
         Square.prototype.update = function () {
-            this.move();
-            this.checkCollision();
+            if (this.isDead) {
+                if (this._deadAnimPlayedDuration == 0) {
+                    this.gotoAndPlay(this.deathAnimString);
+                    this.isReadyToSpawn = false;
+                }
+                this._deadAnimPlayedDuration++;
+                if (this._deadAnimPlayedDuration >= 100) {
+                    this._dead();
+                    this._deadAnimPlayedDuration = 0;
+                }
+            }
+            else {
+                this.move();
+                this.checkCollision();
+            }
         };
         Square.prototype.move = function () {
             this.y += this.ySpeed * this.levelMultiplier;
-            this.x += this.xSpeed * this.xDir * this.levelMultiplier;
+            // this.x += this.xSpeed * this.xDir * this.levelMultiplier
+            this.position = new objects.Vector2(this.x, this.y);
         };
         // public rotate(): void {
         //     this.rotation = 90
@@ -59,33 +76,15 @@ var objects;
             }
             //bottom wall
             if (this.y + (this.ySpeed * this.levelMultiplier) > 455) {
-                this.dead = true;
+                this.isFinished = true;
+                // this.isDead = true
+                currentScene.removeChild(this);
             }
-            //             this.dead = true
-            // switch (keyPressed) {
-            //     case config.Controls.ARROW_KEY_LEFT:
-            //         // check left bounds 413
-            //         if (this.x - config.Game.BLOCKSIZE < 413 + this.halfWidth) {
-            //             this.x = 413 + this.halfWidth
-            //             // this.dead = true
-            //         }
-            //         break;
-            //     case config.Controls.ARROW_KEY_RIGHT:
-            //         // check right bounds 613
-            //         if (this.x + config.Game.BLOCKSIZE > 613 - this.halfWidth) {
-            //             this.x = 613 - this.halfWidth
-            //             // this.dead = true
-            //         }
-            //         break;
-            //     case config.Controls.ARROW_KEY_DOWN:
-            //     case config.Controls.SPACE_KEY:
-            //         if (this.y + config.Game.BLOCKSIZE > 455) {
-            //             this.dead = true
-            //             this.y = 455
-            //         }
-            //         break;
-            // }
-            // upper bounds = 75
+        };
+        //private methods
+        Square.prototype._dead = function () {
+            currentScene.removeChild(this);
+            this.isReadyToSpawn = true;
         };
         return Square;
     }(objects.Tetromino));

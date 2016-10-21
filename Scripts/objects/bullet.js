@@ -3,7 +3,7 @@
  * @author Kevin Ma
  * @date: Oct 20 2016
  * @description: Bullet class is used to manage the attributes and behavior of bullets fired from the particle launcher (Player)
- * @version 0.11.0 - implemented firing one bullet for player
+ * @version 0.12.0 - successfully checked collision between bullet and squareTetromino
  */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -21,13 +21,13 @@ var objects;
             this._currentLevel = _currentLevel;
             this.x = startX;
             this.y = startY;
-            console.log('x ' + this.x + ' y ' + this.y);
         }
         //public methods
         Bullet.prototype.start = function () {
         };
         Bullet.prototype.update = function () {
             this.y -= 5 * this._currentLevel;
+            this.position = new objects.Vector2(this.x, this.y);
         };
         return Bullet;
     }(objects.GameObject));

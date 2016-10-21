@@ -3,7 +3,7 @@
  * @author Kevin Ma
  * @date: Oct 20, 2016
  * @description: Game scene that contains all assets and functionality associated with the game itself
- * @version 0.11.0 - implemented firing one bullet for player
+ * @version 0.12.0 - successfully checked collision between bullet and squareTetromino
  */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -58,31 +58,57 @@ var scenes;
          */
         Game.prototype.update = function () {
             var _this = this;
-            //tetromino has landed (killed or hit bottom)
-            if (this._currentTetromino.dead) {
-                this.removeChild(this._currentTetromino);
+            //tetromino reached bottom of map
+            if (this._currentTetromino.isFinished) {
+                //need to decrement goal towards next level regardless
+                //whether player shot the enemy or enemy reached player base
                 this._goalToNextLevel--;
                 this._goalLabel.text = "Goal\n" + this._goalToNextLevel;
-                this._hpPercent -= 13;
-                this._createTetromino();
+                //only decrement player hp if enemy reached player base
+                //spawn enemy without waiting for death animation to play
+                if (!this._currentTetromino.isDead) {
+                    this._hpPercent -= 13;
+                    this._createTetromino();
+                }
+            }
+            //if player shot enemy, play death animation, wait till it finishes
+            //then spawn new enemy
+            if (this._currentTetromino.isDead) {
+                this._currentTetromino.isFinished = false;
+                if (this._currentTetromino.isReadyToSpawn) {
+                    this._createTetromino();
+                }
             }
             //update hpbar when enemy reached bottom and not shot dead
             this._updateHpBar();
             //update player
             this._player.update();
             //bug when level > 1, bullets get removed while still in mid flight from array
-            if (spaceKeyDown && this._player.bullet.length < this._currentLevel) {
+            if (spaceKeyDown && this._player.ammo.length < this._currentLevel) {
                 var tempBullet = new objects.Bullet("bullet1", this._player.x + 10, this._player.y, this._currentLevel);
                 this._player.shootBullet(tempBullet);
                 this.addChild(tempBullet);
                 console.log('shoot bulet');
-                console.log(this._player.bullet.length);
+                console.log(this._player.ammo.length);
             }
-            var playerBullets = this._player.bullet;
+            var playerBullets = this._player.ammo;
             playerBullets.forEach(function (bullet) {
                 bullet.update();
+                //check if bullet(s) hitbox coincide with the squares hitbox, aka a collision 
+                if ((bullet.y >= _this._currentTetromino.y - _this._currentTetromino.halfHeight
+                    && bullet.y <= _this._currentTetromino.y + _this._currentTetromino.halfHeight
+                    && bullet.x >= _this._currentTetromino.x - _this._currentTetromino.halfWidth
+                    && bullet.x <= _this._currentTetromino.x + _this._currentTetromino.halfWidth)) {
+                    //do post-death checks
+                    _this._currentTetromino.isDead = true;
+                    _this._currentTetromino.isFinished = true;
+                    //remove the bullet from the player's ammunition and remove from the scene
+                    _this._player.ammo.pop();
+                    _this.removeChild(bullet);
+                }
+                //bullet reach end of map 
                 if (bullet.y <= 75) {
-                    _this._player.bullet.pop();
+                    _this._player.ammo.pop();
                     _this.removeChild(bullet);
                 }
             });
@@ -118,11 +144,7 @@ var scenes;
             this._currentLevel = 1;
             this._goalToNextLevel = this._currentLevel * 10;
             this._hpPercent = 100;
-            // leftKeyDown = false
-            // rightKeyDown = false
-            // upKeyDown = false
-            // downKeyDown = false
-            // spaceKeyDown = false
+            this._animationDurationCounter = 0;
         };
         Game.prototype._initializeUI = function () {
             this._background = new createjs.Bitmap(assets.getResult('BG'));
@@ -156,8 +178,6 @@ var scenes;
         Game.prototype._createTetromino = function () {
             this._currentTetromino = new objects.Square(this._currentLevel);
             this.addChild(this._currentTetromino);
-            // middle two cols are set to true when square created
-            // grid[0][4] = grid[0][5] = true
         };
         /**
          * This function changes the game to the menu scene

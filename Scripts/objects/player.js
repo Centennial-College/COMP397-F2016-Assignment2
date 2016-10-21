@@ -20,10 +20,10 @@ var objects;
             _super.call(this);
             this.start();
         }
-        Object.defineProperty(Player.prototype, "bullet", {
+        Object.defineProperty(Player.prototype, "ammo", {
             //properties
             get: function () {
-                return this._bullet;
+                return this._ammunition;
             },
             enumerable: true,
             configurable: true
@@ -62,7 +62,7 @@ var objects;
             }
         };
         Player.prototype.shootBullet = function (newBullet) {
-            this._bullet.push(newBullet);
+            this._ammunition.push(newBullet);
         };
         //private methods
         Player.prototype._renderNewPosition = function () {
@@ -76,7 +76,7 @@ var objects;
             }
         };
         Player.prototype._init = function () {
-            this._bullet = [];
+            this._ammunition = [];
             //draws the particle launcher using native createjs.Shape methods
             this.graphics.beginFill('#142b5c')
                 .beginStroke('#000')

@@ -11,7 +11,7 @@
 module objects {
     export class Player extends createjs.Shape {
         //instance variables
-        private _bullet: objects.Bullet[]
+        private _ammunition: objects.Bullet[]
 
         // CONSTRUCTOR +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         constructor() {
@@ -20,8 +20,8 @@ module objects {
         }
 
         //properties
-        get bullet(): objects.Bullet[] {
-            return this._bullet
+        get ammo(): objects.Bullet[] {
+            return this._ammunition
         }
 
         //public methods
@@ -59,7 +59,7 @@ module objects {
         }
 
         public shootBullet(newBullet: objects.Bullet): void {
-            this._bullet.push(newBullet)
+            this._ammunition.push(newBullet)
         }
 
         //private methods
@@ -74,7 +74,7 @@ module objects {
             }
         }
         private _init(): void {
-            this._bullet = []
+            this._ammunition = []
             //draws the particle launcher using native createjs.Shape methods
             this.graphics.beginFill('#142b5c')
                 .beginStroke('#000')
