@@ -3,7 +3,7 @@
  * @author Kevin Ma
  * @date: Oct 18, 2016
  * @description: This file contains all assets and functionality associated with the menu itself.
- * @version 0.5.0 - implemented square tetromino moving on its own
+ * @version 0.12.1 - added author label to menu scene
  */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -41,12 +41,17 @@ var scenes;
             this._titleLabel = new objects.Label("BLASTIMOES", "100px custfont", "#0fc2d7", config.Screen.CENTER_X, config.Screen.CENTER_Y);
             this._titleLabel.shadow = new createjs.Shadow('#000', 5, 5, 15);
             this.addChild(this._titleLabel);
+            this._authorLabel = new objects.Label("Developed by: Kevin Ma", "20px custfont", "#0fc2d7", config.Screen.CENTER_X, config.Screen.CENTER_Y + 45);
+            this._authorLabel.shadow = new createjs.Shadow('#000', 2, 2, 2);
+            this.addChild(this._authorLabel);
             // Add button to scene. Register for click callback function
-            this._startBtn = new objects.Button("startBtn", config.Screen.CENTER_X, config.Screen.CENTER_Y + 80);
+            this._startBtn = new objects.Button("startBtn", config.Screen.CENTER_X, config.Screen.CENTER_Y + 90);
+            // this._startBtn = new objects.Button("startBtn", config.Screen.CENTER_X + 100, config.Screen.CENTER_Y + 120);
             this._startBtn.shadow = new createjs.Shadow('#000', 5, 5, 15);
             this.addChild(this._startBtn);
             this._startBtn.on("click", this._startButtonClick, this);
-            this._instructionBtn = new objects.Button("instructionBtn", config.Screen.CENTER_X, config.Screen.CENTER_Y + 150);
+            this._instructionBtn = new objects.Button("instructionBtn", config.Screen.CENTER_X, config.Screen.CENTER_Y + 160);
+            // this._instructionBtn = new objects.Button("instructionBtn", config.Screen.CENTER_X - 100, config.Screen.CENTER_Y + 120);
             this._instructionBtn.shadow = new createjs.Shadow('#000', 5, 5, 15);
             this.addChild(this._instructionBtn);
             this._instructionBtn.on("click", this._instructionBtnClick, this);

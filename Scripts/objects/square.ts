@@ -44,7 +44,7 @@ module objects {
 
         public move(): void {
             this.y += this.ySpeed * this.levelMultiplier
-            // this.x += this.xSpeed * this.xDir * this.levelMultiplier
+            this.x += this.xSpeed * this.xDir * this.levelMultiplier
             this.position = new objects.Vector2(this.x, this.y)
         }
 
