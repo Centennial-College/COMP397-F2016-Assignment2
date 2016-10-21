@@ -103,21 +103,6 @@ module scenes {
 
         private _instructionBtnClick(event: createjs.MouseEvent): void {
             // Change global scene variable to GAME. Call global changeScene() function
-            scene = config.Scene.GAME;
-            changeScene();
-        }
-
-        /**
-         * This method changes the current scene to the gameover scene when the gameover button is clicked
-         * 
-         * @private
-         * @method _gameOverButtonClick
-         * @param {createjs.MouseEvent} event
-         * 
-         * @memberOf Menu
-         * @return {void}
-         */
-        private _gameOverButtonClick(event: createjs.MouseEvent): void {
             scene = config.Scene.GAMEOVER;
             changeScene();
         }

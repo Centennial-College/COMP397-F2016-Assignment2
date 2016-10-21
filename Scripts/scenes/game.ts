@@ -1,9 +1,9 @@
 /**
  * @file game.ts
  * @author Kevin Ma
- * @date: Oct 20, 2016
+ * @date: Oct 21, 2016
  * @description: Game scene that contains all assets and functionality associated with the game itself
- * @version 0.13.0 - implemented scoring system
+ * @version 0.14.0 - implemented gameover scene
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -39,7 +39,6 @@ module scenes {
         private _hpBar: createjs.Shape
 
         //score
-        private _score: number
         private _scoreHeader: objects.Label
         private _scoreLabel: objects.Label
 
@@ -93,12 +92,25 @@ module scenes {
                 //need to decrement goal towards next level regardless
                 //whether player shot the enemy or enemy reached player base
                 this._goalToNextLevel--
+                //when goal reaches 0, level up, new goal
+                if (this._goalToNextLevel == 0) {
+                    this._currentLevel++
+                    this._goalToNextLevel = this._currentLevel
+                    this._levelLabel.text = this._currentLevel.toString()
+                    scene = config.Scene.GAMEOVER
+                        changeScene()
+                }
                 this._goalLabel.text = this._goalToNextLevel.toString()
 
                 //only decrement player hp if enemy reached player base
                 //spawn enemy without waiting for death animation to play
                 if (!this._currentTetromino.isDead) {
                     this._hpPercent -= 13
+                    //if hp = 0%, game over
+                    if (this._hpPercent <= 0) {
+                        scene = config.Scene.GAMEOVER
+                        changeScene()
+                    }
                     this._createTetromino()
                 }
             }
@@ -116,7 +128,8 @@ module scenes {
             //update player
             this._player.update()
             //bug when level > 1, bullets get removed while still in mid flight from array
-            if (spaceKeyDown && this._player.ammo.length < this._currentLevel) {
+            // if (spaceKeyDown && this._player.ammo.length < this._currentLevel) {
+            if (spaceKeyDown && this._player.ammo.length < 1) {
                 let tempBullet = new objects.Bullet("bullet1", this._player.x + 10, this._player.y, this._currentLevel)
                 this._player.shootBullet(tempBullet)
                 this.addChild(tempBullet)
@@ -134,8 +147,8 @@ module scenes {
                         //do post-death checks
                         this._currentTetromino.isDead = true
                         this._currentTetromino.isFinished = true
-                        this._score += 4
-                        this._scoreLabel.text = this._score.toString()
+                        score += 4 * this._currentLevel
+                        this._scoreLabel.text = score.toString()
 
                         //remove the bullet from the player's ammunition and remove from the scene
                         this._player.ammo.pop()
@@ -180,9 +193,9 @@ module scenes {
         }
         private _initializeVariables(): void {
             this._currentLevel = 1
-            this._goalToNextLevel = this._currentLevel * 10
+            this._goalToNextLevel = this._currentLevel * 1
             this._hpPercent = 100
-            this._score = 0
+            score = 0
         }
         private _initializeUI(): void {
             this._background = new createjs.Bitmap(assets.getResult('BG'))
@@ -218,7 +231,7 @@ module scenes {
             this._goalHeader.shadow = new createjs.Shadow('#000', 2, 2, 2)
             this.addChild(this._goalHeader);
 
-            this._goalLabel = new objects.Label("" + this._goalToNextLevel, "50px custfont", "#0fc2d7", 365, 408);
+            this._goalLabel = new objects.Label("" + this._goalToNextLevel, "50px custfont", "#0fc2d7", 350, 408);
             this._goalLabel.textAlign = 'center'
             this._goalLabel.shadow = new createjs.Shadow('#000', 2, 2, 2)
             this.addChild(this._goalLabel);
@@ -233,7 +246,7 @@ module scenes {
             this._scoreHeader.shadow = new createjs.Shadow('#000', 2, 2, 2)
             this.addChild(this._scoreHeader);
 
-            this._scoreLabel = new objects.Label("" + this._score, "50px custfont", "#0fc2d7", 355, 145);
+            this._scoreLabel = new objects.Label("" + score, "50px custfont", "#0fc2d7", 355, 145);
             this._scoreLabel.textAlign = 'center'
             this._scoreLabel.shadow = new createjs.Shadow('#000', 2, 2, 2)
             this.addChild(this._scoreLabel);

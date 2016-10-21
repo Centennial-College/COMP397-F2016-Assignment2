@@ -3,7 +3,7 @@
  * @author Kevin Ma 
  * @date: Oct 21 2016
  * @description: This file is the entry point for the game.
- * @version 0.13.0 - implemented scoring system
+ * @version 0.14.0 - implemented gameover scene
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -17,11 +17,7 @@ let stage: createjs.Stage;
 
 let currentScene: objects.Scene;
 let scene: number;
-
-// Game scenes
-let menuScene: scenes.Menu;
-let gameScene: scenes.Game;
-let gameOverScene: scenes.GameOver;
+let score: number
 
 //Control booleans
 let leftKeyDown: boolean
@@ -35,6 +31,7 @@ let assetData: objects.Asset[] = [
     { id: "startBtn", src: "../../Assets/images/startBtn.png" },
     { id: "instructionBtn", src: "../../Assets/images/instructionBtn.png" },
     { id: "menuBtn", src: "../../Assets/images/menuBtn.png" },
+    { id: "playAgainBtn", src: "../../Assets/images/playAgainBtn.png" },
     { id: "restartBtn", src: "../../Assets/images/restartBtn.png" },
     { id: "BG", src: "../../Assets/images/bg.png" },
     { id: "blastimoesSheet", src: "../../Assets/images/blastimoesAtlas.png" }
@@ -154,8 +151,7 @@ function changeScene(): void {
     switch (scene) {
         case config.Scene.MENU:
             stage.removeAllChildren();
-            menuScene = new scenes.Menu();
-            currentScene = menuScene;
+            currentScene = new scenes.Menu();
             console.log("Starting MENU scene");
             break;
         case config.Scene.GAME:

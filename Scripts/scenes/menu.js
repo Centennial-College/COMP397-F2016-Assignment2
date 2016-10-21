@@ -87,20 +87,6 @@ var scenes;
         };
         Menu.prototype._instructionBtnClick = function (event) {
             // Change global scene variable to GAME. Call global changeScene() function
-            scene = config.Scene.GAME;
-            changeScene();
-        };
-        /**
-         * This method changes the current scene to the gameover scene when the gameover button is clicked
-         *
-         * @private
-         * @method _gameOverButtonClick
-         * @param {createjs.MouseEvent} event
-         *
-         * @memberOf Menu
-         * @return {void}
-         */
-        Menu.prototype._gameOverButtonClick = function (event) {
             scene = config.Scene.GAMEOVER;
             changeScene();
         };

@@ -3,7 +3,7 @@
  * @author Kevin Ma
  * @date: Oct 21 2016
  * @description: This file is the entry point for the game.
- * @version 0.13.0 - implemented scoring system
+ * @version 0.14.0 - implemented gameover scene
  */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /// <reference path = "_reference.ts" />
@@ -13,10 +13,7 @@ var canvas;
 var stage;
 var currentScene;
 var scene;
-// Game scenes
-var menuScene;
-var gameScene;
-var gameOverScene;
+var score;
 //Control booleans
 var leftKeyDown;
 var rightKeyDown;
@@ -27,6 +24,7 @@ var assetData = [
     { id: "startBtn", src: "../../Assets/images/startBtn.png" },
     { id: "instructionBtn", src: "../../Assets/images/instructionBtn.png" },
     { id: "menuBtn", src: "../../Assets/images/menuBtn.png" },
+    { id: "playAgainBtn", src: "../../Assets/images/playAgainBtn.png" },
     { id: "restartBtn", src: "../../Assets/images/restartBtn.png" },
     { id: "BG", src: "../../Assets/images/bg.png" },
     { id: "blastimoesSheet", src: "../../Assets/images/blastimoesAtlas.png" }
@@ -130,8 +128,7 @@ function changeScene() {
     switch (scene) {
         case config.Scene.MENU:
             stage.removeAllChildren();
-            menuScene = new scenes.Menu();
-            currentScene = menuScene;
+            currentScene = new scenes.Menu();
             console.log("Starting MENU scene");
             break;
         case config.Scene.GAME:

@@ -3,7 +3,7 @@
  * @author Kevin Ma 
  * @date Oct 21 2016
  * @description Square class represents square tetrominoes in the game of Tetris. This class extends Tetromino class
- * @version 0.13.0 - implemented scoring system
+ * @version 0.14.0 - implemented gameover scene
  */
 module objects {
     export class Square extends Tetromino {
@@ -77,7 +77,7 @@ module objects {
                 }
             }
             //right wall
-            else {
+            else if (this.xDir == 1) {
                 if (this.x + (this.xSpeed * this.xDir * this.levelMultiplier) > 613 - this.halfWidth) {
                     this.xDir = -1
                     this.randomizeXSpeed()

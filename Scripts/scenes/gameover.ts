@@ -1,10 +1,9 @@
 /**
  * @file gameover.ts
- * @author Kevin Ma kma45@my.centennialcollege.ca
- * @studentID 300867968
- * @date: September 20, 2016
+ * @author Kevin Ma 
+ * @date: Oct 21 2016
  * @description: This file is the gameover scene for the game.
- * @version 0.1.0
+ * @version 0.14.0 - implemented gameover scene
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -13,8 +12,11 @@ module scenes {
     export class GameOver extends objects.Scene {
 
         // PRIVATE INSTANCE VARIABLES +++++++++++++++++++++++++++++++++++++++++
-        private _bg: createjs.Bitmap;
-        private _marioButton: objects.Button;
+        private _background: createjs.Bitmap;
+        private _gameoverLabel: objects.Label
+        private _scoreLabel: objects.Label
+        private _menuBtn: objects.Button
+        private _playAgainBtn: objects.Button
 
         // CONSTRUCTOR +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         constructor() {
@@ -32,12 +34,33 @@ module scenes {
          * @return {void}
          */
         public start(): void {
-            this._bg = new createjs.Bitmap(assets.getResult("BG"));
-            this.addChild(this._bg);
+            this._background = new createjs.Bitmap(assets.getResult("BG"));
+            this.addChild(this._background);
 
-            this._marioButton = new objects.Button("Mario", config.Screen.CENTER_X, config.Screen.CENTER_Y);
-            this.addChild(this._marioButton);
-            this._marioButton.on('click', this._marioClick, this);
+            this._menuBtn = new objects.Button("menuBtn", config.Screen.CENTER_X - 100, config.Screen.CENTER_Y + 245);
+            this._menuBtn.shadow = new createjs.Shadow('#000', 5, 5, 15)
+            this.addChild(this._menuBtn);
+            this._menuBtn.on("click", this._onMenuButtonClick, this);
+
+            // 5x5 Box Blur filter on bg image
+            let blurFilter = new createjs.BlurFilter(25, 25);
+            this._background.filters = [blurFilter];
+            let bitmapBounds = this._background.getBounds();
+
+            this._background.cache(bitmapBounds.x, bitmapBounds.y, bitmapBounds.width, bitmapBounds.height);
+
+            this._playAgainBtn = new objects.Button("playAgainBtn", config.Screen.CENTER_X + 100, config.Screen.CENTER_Y + 245);
+            this._playAgainBtn.shadow = new createjs.Shadow('#000', 5, 5, 15)
+            this.addChild(this._playAgainBtn);
+            this._playAgainBtn.on("click", this._onPlayAgainButtonClick, this);
+
+            this._gameoverLabel = new objects.Label("good game", "100px custfont", "#0fc2d7", config.Screen.CENTER_X, config.Screen.CENTER_Y);
+            this._gameoverLabel.shadow = new createjs.Shadow('#000', 5, 5, 15)
+            this.addChild(this._gameoverLabel)
+
+            this._scoreLabel = new objects.Label("High score: " + score, "40px custfont", "#0fc2d7", config.Screen.CENTER_X, config.Screen.CENTER_Y + 100);
+            this._scoreLabel.shadow = new createjs.Shadow('#000', 2, 2, 2)
+            this.addChild(this._scoreLabel)
 
             stage.addChild(this);
         }
@@ -57,7 +80,7 @@ module scenes {
 
         // PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++++++++++++++++
         /**
-         * This is the event handler for the mario button click event.
+         * This is the event handler for the menu button click event.
          * 
          * @private
          * @param {createjs.MouseEvent} event
@@ -65,8 +88,13 @@ module scenes {
          * @memberOf GameOver
          * @return {void}
          */
-        private _marioClick(event: createjs.MouseEvent): void {
+        private _onMenuButtonClick(event: createjs.MouseEvent): void {
             scene = config.Scene.MENU;
+            changeScene();
+        }
+
+        private _onPlayAgainButtonClick(event: createjs.MouseEvent): void {
+            scene = config.Scene.GAME;
             changeScene();
         }
 

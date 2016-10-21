@@ -1,10 +1,9 @@
 /**
  * @file gameover.ts
- * @author Kevin Ma kma45@my.centennialcollege.ca
- * @studentID 300867968
- * @date: September 20, 2016
+ * @author Kevin Ma
+ * @date: Oct 21 2016
  * @description: This file is the gameover scene for the game.
- * @version 0.1.0
+ * @version 0.14.0 - implemented gameover scene
  */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -31,11 +30,27 @@ var scenes;
          * @return {void}
          */
         GameOver.prototype.start = function () {
-            this._bg = new createjs.Bitmap(assets.getResult("BG"));
-            this.addChild(this._bg);
-            this._marioButton = new objects.Button("Mario", config.Screen.CENTER_X, config.Screen.CENTER_Y);
-            this.addChild(this._marioButton);
-            this._marioButton.on('click', this._marioClick, this);
+            this._background = new createjs.Bitmap(assets.getResult("BG"));
+            this.addChild(this._background);
+            this._menuBtn = new objects.Button("menuBtn", config.Screen.CENTER_X - 100, config.Screen.CENTER_Y + 245);
+            this._menuBtn.shadow = new createjs.Shadow('#000', 5, 5, 15);
+            this.addChild(this._menuBtn);
+            this._menuBtn.on("click", this._onMenuButtonClick, this);
+            // 5x5 Box Blur filter on bg image
+            var blurFilter = new createjs.BlurFilter(25, 25);
+            this._background.filters = [blurFilter];
+            var bitmapBounds = this._background.getBounds();
+            this._background.cache(bitmapBounds.x, bitmapBounds.y, bitmapBounds.width, bitmapBounds.height);
+            this._playAgainBtn = new objects.Button("playAgainBtn", config.Screen.CENTER_X + 100, config.Screen.CENTER_Y + 245);
+            this._playAgainBtn.shadow = new createjs.Shadow('#000', 5, 5, 15);
+            this.addChild(this._playAgainBtn);
+            this._playAgainBtn.on("click", this._onPlayAgainButtonClick, this);
+            this._gameoverLabel = new objects.Label("good game", "100px custfont", "#0fc2d7", config.Screen.CENTER_X, config.Screen.CENTER_Y);
+            this._gameoverLabel.shadow = new createjs.Shadow('#000', 5, 5, 15);
+            this.addChild(this._gameoverLabel);
+            this._scoreLabel = new objects.Label("High score: " + score, "40px custfont", "#0fc2d7", config.Screen.CENTER_X, config.Screen.CENTER_Y + 100);
+            this._scoreLabel.shadow = new createjs.Shadow('#000', 2, 2, 2);
+            this.addChild(this._scoreLabel);
             stage.addChild(this);
         };
         /**
@@ -51,7 +66,7 @@ var scenes;
         };
         // PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++++++++++++++++
         /**
-         * This is the event handler for the mario button click event.
+         * This is the event handler for the menu button click event.
          *
          * @private
          * @param {createjs.MouseEvent} event
@@ -59,8 +74,12 @@ var scenes;
          * @memberOf GameOver
          * @return {void}
          */
-        GameOver.prototype._marioClick = function (event) {
+        GameOver.prototype._onMenuButtonClick = function (event) {
             scene = config.Scene.MENU;
+            changeScene();
+        };
+        GameOver.prototype._onPlayAgainButtonClick = function (event) {
+            scene = config.Scene.GAME;
             changeScene();
         };
         return GameOver;
