@@ -6,9 +6,9 @@ var __extends = (this && this.__extends) || function (d, b) {
 /**
  * @file square.ts
  * @author Kevin Ma
- * @date Oct 18 2016
+ * @date Oct 21 2016
  * @description Square class represents square tetrominoes in the game of Tetris. This class extends Tetromino class
- * @version 0.12.2 - fixed square starting point (doesnt start outside map now)
+ * @version 0.13.0 - implemented scoring system
  */
 var objects;
 (function (objects) {
@@ -28,12 +28,16 @@ var objects;
         //properties
         //public methods
         Square.prototype.update = function () {
+            //if square is dead, play death animation
             if (this.isDead) {
+                //death animation didnt start playing yet
                 if (this._deadAnimPlayedDuration == 0) {
                     this.gotoAndPlay(this.deathAnimString);
                     this.isReadyToSpawn = false;
                 }
+                //pseudo timer to time how long animation played for so far
                 this._deadAnimPlayedDuration++;
+                //animation has finished playing, can proceed with normal functionalities
                 if (this._deadAnimPlayedDuration >= 100) {
                     this._dead();
                     this._deadAnimPlayedDuration = 0;
@@ -66,12 +70,14 @@ var objects;
                 if (this.x - (this.xSpeed * this.xDir * this.levelMultiplier) < 413 + this.halfWidth) {
                     this.xDir = 1;
                     this.randomizeXSpeed();
+                    this.randomizeYSpeed();
                 }
             }
             else {
                 if (this.x + (this.xSpeed * this.xDir * this.levelMultiplier) > 613 - this.halfWidth) {
                     this.xDir = -1;
                     this.randomizeXSpeed();
+                    this.randomizeYSpeed();
                 }
             }
             //bottom wall

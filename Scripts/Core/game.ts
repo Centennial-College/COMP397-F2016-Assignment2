@@ -1,10 +1,9 @@
 /**
  * @file game.ts
- * @author Kevin Ma kma45@my.centennialcollege.ca
- * @studentID 300867968
- * @date: September 20, 2016
+ * @author Kevin Ma 
+ * @date: Oct 21 2016
  * @description: This file is the entry point for the game.
- * @version 0.12.0 - successfully checked collision between bullet and squareTetromino
+ * @version 0.13.0 - implemented scoring system
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -118,7 +117,8 @@ function init(): void {
             "animations": {
                 "explosion": { "frames": [20, 19, 8, 1, 2, 16, 6, 14, 17, 7, 0, 3, 5, 13, 11, 9, 15, 10, 12, 18, 21, 22], "speed": 0.3, next: false },
                 "squareTetromino": { "frames": [4] },
-                "bullet1": { "frames": [26, 25, 24, 23], next: false, speed: 0.1 }
+                "bullet1": { "frames": [26, 25, 24, 23], next: false, speed: 0.1 },
+                "bullet1Continuous": { "frames": [26, 25, 24, 23], speed: 0.1 },
             }
         }
     )
