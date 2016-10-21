@@ -3,7 +3,7 @@
  * @author Kevin Ma
  * @date: Oct 20, 2016
  * @description: Game scene that contains all assets and functionality associated with the game itself
- * @version 0.9.0 - implemented move functionality for player
+ * @version 0.11.0 - implemented firing one bullet for player
  */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -44,8 +44,8 @@ var scenes;
             // Add gamescene to main stage container. 
             stage.addChild(this);
             //handle keys
-            window.onkeydown = this._player.move;
-            window.onkeyup = this._player.stop;
+            window.onkeydown = this._player.onKeyDown;
+            window.onkeyup = this._player.onKeyUp;
         };
         /**
          * This function updates the objects contained in the game scene
@@ -57,6 +57,7 @@ var scenes;
          * @return {void}
          */
         Game.prototype.update = function () {
+            var _this = this;
             //tetromino has landed (killed or hit bottom)
             if (this._currentTetromino.dead) {
                 this.removeChild(this._currentTetromino);
@@ -69,6 +70,22 @@ var scenes;
             this._updateHpBar();
             //update player
             this._player.update();
+            //bug when level > 1, bullets get removed while still in mid flight from array
+            if (spaceKeyDown && this._player.bullet.length < this._currentLevel) {
+                var tempBullet = new objects.Bullet("bullet1", this._player.x + 10, this._player.y, this._currentLevel);
+                this._player.shootBullet(tempBullet);
+                this.addChild(tempBullet);
+                console.log('shoot bulet');
+                console.log(this._player.bullet.length);
+            }
+            var playerBullets = this._player.bullet;
+            playerBullets.forEach(function (bullet) {
+                bullet.update();
+                if (bullet.y <= 75) {
+                    _this._player.bullet.pop();
+                    _this.removeChild(bullet);
+                }
+            });
             //update square object 
             this._currentTetromino.update();
         };

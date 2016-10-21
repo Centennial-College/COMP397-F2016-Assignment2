@@ -3,7 +3,7 @@
  * @author Kevin Ma
  * @date: Oct 20, 2016
  * @description: Game scene that contains all assets and functionality associated with the game itself
- * @version 0.9.0 - implemented move functionality for player
+ * @version 0.11.0 - implemented firing one bullet for player
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -71,8 +71,8 @@ module scenes {
             stage.addChild(this);
 
             //handle keys
-            window.onkeydown = this._player.move
-            window.onkeyup = this._player.stop
+            window.onkeydown = this._player.onKeyDown
+            window.onkeyup = this._player.onKeyUp
         }
 
         /**
@@ -99,6 +99,22 @@ module scenes {
 
             //update player
             this._player.update()
+            //bug when level > 1, bullets get removed while still in mid flight from array
+            if (spaceKeyDown && this._player.bullet.length < this._currentLevel) {
+                let tempBullet = new objects.Bullet("bullet1", this._player.x + 10, this._player.y, this._currentLevel)
+                this._player.shootBullet(tempBullet)
+                this.addChild(tempBullet)
+                console.log('shoot bulet');
+                console.log(this._player.bullet.length);
+            }
+            let playerBullets = this._player.bullet
+            playerBullets.forEach(bullet => {
+                bullet.update()
+                if (bullet.y <= 75) {
+                    this._player.bullet.pop()
+                    this.removeChild(bullet)
+                }
+            });
 
             //update square object 
             this._currentTetromino.update()

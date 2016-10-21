@@ -3,7 +3,7 @@
  * @author Kevin Ma
  * @date: Oct 20 2016
  * @description: Player class is used to manage the particle launcher in the game Blastimoes (behavior and attributes)
- * @version 0.9.0 - implemented move functionality for player
+ * @version 0.11.0 - implemented firing one bullet for player
  */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -20,19 +20,22 @@ var objects;
             _super.call(this);
             this.start();
         }
+        Object.defineProperty(Player.prototype, "bullet", {
+            //properties
+            get: function () {
+                return this._bullet;
+            },
+            enumerable: true,
+            configurable: true
+        });
         //public methods
         Player.prototype.start = function () {
-            this.graphics.beginFill('#142b5c')
-                .beginStroke('#000')
-                .drawRect(0, 0, 20, 20);
-            //set intiial position to be in the middle bottom of Screen
-            this.x = config.Screen.CENTER_X - 10;
-            this.y = 453;
+            this._init();
         };
         Player.prototype.update = function () {
             this._renderNewPosition();
         };
-        Player.prototype.move = function (evt) {
+        Player.prototype.onKeyDown = function (evt) {
             switch (evt.keyCode) {
                 case config.Controls.ARROW_KEY_LEFT:
                     leftKeyDown = true;
@@ -40,9 +43,12 @@ var objects;
                 case config.Controls.ARROW_KEY_RIGHT:
                     rightKeyDown = true;
                     break;
+                case config.Controls.SPACE_KEY:
+                    spaceKeyDown = true;
+                    break;
             }
         };
-        Player.prototype.stop = function (evt) {
+        Player.prototype.onKeyUp = function (evt) {
             switch (evt.keyCode) {
                 case config.Controls.ARROW_KEY_LEFT:
                     leftKeyDown = false;
@@ -50,7 +56,13 @@ var objects;
                 case config.Controls.ARROW_KEY_RIGHT:
                     rightKeyDown = false;
                     break;
+                case config.Controls.SPACE_KEY:
+                    spaceKeyDown = false;
+                    break;
             }
+        };
+        Player.prototype.shootBullet = function (newBullet) {
+            this._bullet.push(newBullet);
         };
         //private methods
         Player.prototype._renderNewPosition = function () {
@@ -62,6 +74,16 @@ var objects;
                 //ensures that won't go beyond right wall when moving right
                 this.x = (this.x + 10 > 591) ? 591 : this.x + 10;
             }
+        };
+        Player.prototype._init = function () {
+            this._bullet = [];
+            //draws the particle launcher using native createjs.Shape methods
+            this.graphics.beginFill('#142b5c')
+                .beginStroke('#000')
+                .drawRect(0, 0, 20, 20);
+            //set intiial position to be in the middle bottom of Screen
+            this.x = config.Screen.CENTER_X - 10;
+            this.y = 453;
         };
         return Player;
     }(createjs.Shape));

@@ -3,13 +3,15 @@
  * @author Kevin Ma 
  * @date: Oct 20 2016
  * @description: Player class is used to manage the particle launcher in the game Blastimoes (behavior and attributes)
- * @version 0.9.0 - implemented move functionality for player
+ * @version 0.11.0 - implemented firing one bullet for player
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 module objects {
     export class Player extends createjs.Shape {
+        //instance variables
+        private _bullet: objects.Bullet[]
 
         // CONSTRUCTOR +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         constructor() {
@@ -17,20 +19,19 @@ module objects {
             this.start()
         }
 
+        //properties
+        get bullet(): objects.Bullet[] {
+            return this._bullet
+        }
+
         //public methods
         public start(): void {
-            this.graphics.beginFill('#142b5c')
-                .beginStroke('#000')
-                .drawRect(0, 0, 20, 20)
-
-            //set intiial position to be in the middle bottom of Screen
-            this.x = config.Screen.CENTER_X - 10
-            this.y = 453
+            this._init()
         }
         public update(): void {
             this._renderNewPosition()
         }
-        public move(evt): void {
+        public onKeyDown(evt): void {
             switch (evt.keyCode) {
                 case config.Controls.ARROW_KEY_LEFT:
                     leftKeyDown = true
@@ -38,9 +39,12 @@ module objects {
                 case config.Controls.ARROW_KEY_RIGHT:
                     rightKeyDown = true
                     break
+                case config.Controls.SPACE_KEY:
+                    spaceKeyDown = true
+                    break
             }
         }
-        public stop(evt): void {
+        public onKeyUp(evt): void {
             switch (evt.keyCode) {
                 case config.Controls.ARROW_KEY_LEFT:
                     leftKeyDown = false
@@ -48,7 +52,14 @@ module objects {
                 case config.Controls.ARROW_KEY_RIGHT:
                     rightKeyDown = false
                     break
+                case config.Controls.SPACE_KEY:
+                    spaceKeyDown = false
+                    break
             }
+        }
+
+        public shootBullet(newBullet: objects.Bullet): void {
+            this._bullet.push(newBullet)
         }
 
         //private methods
@@ -61,6 +72,17 @@ module objects {
                 //ensures that won't go beyond right wall when moving right
                 this.x = (this.x + 10 > 591) ? 591 : this.x + 10
             }
+        }
+        private _init(): void {
+            this._bullet = []
+            //draws the particle launcher using native createjs.Shape methods
+            this.graphics.beginFill('#142b5c')
+                .beginStroke('#000')
+                .drawRect(0, 0, 20, 20)
+
+            //set intiial position to be in the middle bottom of Screen
+            this.x = config.Screen.CENTER_X - 10
+            this.y = 453
         }
     }
 }
