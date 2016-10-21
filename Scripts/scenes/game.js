@@ -62,8 +62,6 @@ var scenes;
                     this._currentLevel++;
                     this._goalToNextLevel = this._currentLevel;
                     this._levelLabel.text = this._currentLevel.toString();
-                    scene = config.Scene.GAMEOVER;
-                    changeScene();
                 }
                 this._goalLabel.text = this._goalToNextLevel.toString();
                 //only decrement player hp if enemy reached player base
@@ -93,7 +91,7 @@ var scenes;
             //bug when level > 1, bullets get removed while still in mid flight from array
             // if (spaceKeyDown && this._player.ammo.length < this._currentLevel) {
             if (spaceKeyDown && this._player.ammo.length < 1) {
-                var tempBullet = new objects.Bullet("bullet1", this._player.x + 10, this._player.y, this._currentLevel);
+                var tempBullet = new objects.Bullet("bullet1", this._player.x + 10, this._player.y, this._bulletUsing);
                 this._player.shootBullet(tempBullet);
                 this.addChild(tempBullet);
             }
@@ -156,6 +154,7 @@ var scenes;
             this._goalToNextLevel = this._currentLevel * 1;
             this._hpPercent = 100;
             score = 0;
+            this._bulletUsing = 1;
         };
         Game.prototype._initializeUI = function () {
             this._background = new createjs.Bitmap(assets.getResult('BG'));

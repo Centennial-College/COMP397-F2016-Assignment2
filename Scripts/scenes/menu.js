@@ -1,9 +1,9 @@
 /**
  * @file menu.ts
  * @author Kevin Ma
- * @date: Oct 18, 2016
+ * @date: Oct 21, 2016
  * @description: This file contains all assets and functionality associated with the menu itself.
- * @version 0.12.1 - added author label to menu scene
+ * @version 0.15.0 - implemented instructons scene
  */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -87,7 +87,7 @@ var scenes;
         };
         Menu.prototype._instructionBtnClick = function (event) {
             // Change global scene variable to GAME. Call global changeScene() function
-            scene = config.Scene.GAMEOVER;
+            scene = config.Scene.INSTRUCTIONS;
             changeScene();
         };
         return Menu;

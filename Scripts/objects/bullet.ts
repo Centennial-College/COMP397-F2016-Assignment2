@@ -12,7 +12,7 @@ module objects {
     export class Bullet extends objects.GameObject {
 
         // CONSTRUCTOR +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        constructor(imageString: string, startX: number, startY: number, private _currentLevel: number) {
+        constructor(imageString: string, startX: number, startY: number, private _bulletType: number) {
             super(blastimoesAtlas, imageString, "")
             this.x = startX
             this.y = startY
@@ -23,7 +23,7 @@ module objects {
 
         }
         public update(): void {
-            this.y -= 5 * this._currentLevel
+            this.y -= 5 * this._bulletType
             this.position = new objects.Vector2(this.x, this.y)
         }
         // public move(evt): void {

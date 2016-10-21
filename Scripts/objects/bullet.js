@@ -16,9 +16,9 @@ var objects;
     var Bullet = (function (_super) {
         __extends(Bullet, _super);
         // CONSTRUCTOR +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        function Bullet(imageString, startX, startY, _currentLevel) {
+        function Bullet(imageString, startX, startY, _bulletType) {
             _super.call(this, blastimoesAtlas, imageString, "");
-            this._currentLevel = _currentLevel;
+            this._bulletType = _bulletType;
             this.x = startX;
             this.y = startY;
         }
@@ -26,7 +26,7 @@ var objects;
         Bullet.prototype.start = function () {
         };
         Bullet.prototype.update = function () {
-            this.y -= 5 * this._currentLevel;
+            this.y -= 5 * this._bulletType;
             this.position = new objects.Vector2(this.x, this.y);
         };
         return Bullet;

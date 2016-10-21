@@ -3,7 +3,7 @@
  * @author Kevin Ma 
  * @date: Oct 21 2016
  * @description: This file is the entry point for the game.
- * @version 0.14.0 - implemented gameover scene
+ * @version 0.15.0 - implemented instructons scene
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -164,6 +164,11 @@ function changeScene(): void {
             currentScene = new scenes.GameOver();
             console.log("Starting GAMEOVER scene");
             break;
+        case config.Scene.INSTRUCTIONS:
+            stage.removeAllChildren()
+            currentScene = new scenes.Instructions()
+            console.log("Starting INSTRUCTIONS scene");
+            break
     }
 
 }
