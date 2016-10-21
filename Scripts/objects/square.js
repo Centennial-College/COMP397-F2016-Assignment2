@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || function (d, b) {
  * @author Kevin Ma
  * @date Oct 18 2016
  * @description Square class represents square tetrominoes in the game of Tetris. This class extends Tetromino class
- * @version 0.12.0 - successfully checked collision between bullet and squareTetromino
+ * @version 0.12.2 - fixed square starting point (doesnt start outside map now)
  */
 var objects;
 (function (objects) {
@@ -22,7 +22,7 @@ var objects;
             this._deadAnimPlayedDuration = _deadAnimPlayedDuration;
             //start square in middle (columns 5 and 6 of grid)
             this.x = 513;
-            this.y = 75;
+            this.y = 90;
             this._deadAnimPlayedDuration = 0;
         }
         //properties
