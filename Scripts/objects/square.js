@@ -8,7 +8,7 @@ var __extends = (this && this.__extends) || function (d, b) {
  * @author Kevin Ma
  * @date Oct 21 2016
  * @description Square class represents square tetrominoes in the game of Tetris. This class extends Tetromino class
- * @version 0.14.0 - implemented gameover scene
+ * @version 0.16.0 - square randomly spawns at the top of the map when dies now
  */
 var objects;
 (function (objects) {
@@ -20,8 +20,10 @@ var objects;
             if (_deadAnimPlayedDuration === void 0) { _deadAnimPlayedDuration = 0; }
             _super.call(this, "squareTetromino", levelMultipler);
             this._deadAnimPlayedDuration = _deadAnimPlayedDuration;
-            //start square in middle (columns 5 and 6 of grid)
-            this.x = 513;
+            //start square randomly at the top of the map
+            //595 is max x of the map
+            //435 is the min x of the map
+            this.x = 435 + Math.random() * (595 - 435);
             this.y = 90;
             this._deadAnimPlayedDuration = 0;
         }
