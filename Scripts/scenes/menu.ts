@@ -3,7 +3,7 @@
  * @author Kevin Ma 
  * @date: Oct 21, 2016
  * @description: This file contains all assets and functionality associated with the menu itself.
- * @version 0.15.0 - implemented instructons scene
+ * @version 1.0.2 - added development year to menu scene
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -50,7 +50,7 @@ module scenes {
             this._titleLabel.shadow = new createjs.Shadow('#000', 5, 5, 15)
             this.addChild(this._titleLabel)
 
-            this._authorLabel = new objects.Label("Developed by: Kevin Ma", "20px custfont", "#0fc2d7", config.Screen.CENTER_X, config.Screen.CENTER_Y + 45);
+            this._authorLabel = new objects.Label("Developed by: Kevin Ma {2016}", "20px custfont", "#0fc2d7", config.Screen.CENTER_X, config.Screen.CENTER_Y + 45);
             this._authorLabel.shadow = new createjs.Shadow('#000', 2, 2, 2)
             this.addChild(this._authorLabel);
 
