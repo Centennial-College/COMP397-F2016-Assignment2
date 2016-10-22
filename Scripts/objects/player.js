@@ -1,9 +1,9 @@
 /**
  * @file player.ts
  * @author Kevin Ma
- * @date: Oct 20 2016
+ * @date: Oct 21 2016
  * @description: Player class is used to manage the particle launcher in the game Blastimoes (behavior and attributes)
- * @version 0.11.0 - implemented firing one bullet for player
+ * @version 1.0.0 - Initial Release; implemented diff bullet types
  */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -46,6 +46,15 @@ var objects;
                 case config.Controls.SPACE_KEY:
                     spaceKeyDown = true;
                     break;
+                case config.Controls.Q:
+                    qDown = true;
+                    break;
+                case config.Controls.W:
+                    wDown = true;
+                    break;
+                case config.Controls.T:
+                    tDown = true;
+                    break;
             }
         };
         Player.prototype.onKeyUp = function (evt) {
@@ -58,6 +67,15 @@ var objects;
                     break;
                 case config.Controls.SPACE_KEY:
                     spaceKeyDown = false;
+                    break;
+                case config.Controls.Q:
+                    qDown = false;
+                    break;
+                case config.Controls.W:
+                    wDown = false;
+                    break;
+                case config.Controls.T:
+                    tDown = false;
                     break;
             }
         };

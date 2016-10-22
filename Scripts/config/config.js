@@ -4,7 +4,7 @@
  * @studentID 300867968
  * @date: October 21, 2016
  * @description: This file is used to store globally accessible values and states for the game.
- * @version 0.15.0 - implemented instructons scene
+ * @version 1.0.0 - Initial Release; implemented diff bullet types
  */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 var config;
@@ -42,6 +42,9 @@ var config;
         Controls.ARROW_KEY_LEFT = 37;
         Controls.ARROW_KEY_RIGHT = 39;
         Controls.SPACE_KEY = 32;
+        Controls.Q = 81;
+        Controls.W = 87;
+        Controls.T = 84;
         return Controls;
     }());
     config.Controls = Controls;

@@ -4,7 +4,7 @@
  * @studentID 300867968
  * @date: October 21, 2016
  * @description: This file is used to store globally accessible values and states for the game.
- * @version 0.15.0 - implemented instructons scene
+ * @version 1.0.0 - Initial Release; implemented diff bullet types 
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -31,6 +31,9 @@ module config {
         public static ARROW_KEY_LEFT: number = 37
         public static ARROW_KEY_RIGHT: number = 39
         public static SPACE_KEY: number = 32
+        public static Q: number = 81
+        public static W: number = 87
+        public static T: number = 84
     }
 }
 

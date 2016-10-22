@@ -3,7 +3,7 @@
  * @author Kevin Ma
  * @date: Oct 21, 2016
  * @description: Game scene that contains all assets and functionality associated with the game itself
- * @version 0.14.0 - implemented gameover scene
+ * @version 1.0.0 - Initial Release; implemented diff bullet types
  */
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
@@ -46,6 +46,9 @@ module scenes {
         private _bulletHeader: objects.Label
         private _currentBullet: createjs.Sprite
         private _bulletUsing: number
+        private _bulletImageString: string
+        private _bullets: createjs.Sprite[]
+        private _bulletsLabel: objects.Label[]
 
         // CONSTRUCTOR +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         constructor() {
@@ -96,7 +99,15 @@ module scenes {
                 //when goal reaches 0, level up, new goal
                 if (this._goalToNextLevel == 0) {
                     this._currentLevel++
-                    this._goalToNextLevel = this._currentLevel
+                    switch (this._currentLevel) {
+                        case 2:
+                            this._bullets[2].alpha = 1
+                            break;
+                        case 3:
+                            this._bullets[3].alpha = 1
+                            break;
+                    }
+                    this._goalToNextLevel = this._currentLevel * 10
                     this._levelLabel.text = this._currentLevel.toString()
                 }
                 this._goalLabel.text = this._goalToNextLevel.toString()
@@ -129,7 +140,7 @@ module scenes {
             //bug when level > 1, bullets get removed while still in mid flight from array
             // if (spaceKeyDown && this._player.ammo.length < this._currentLevel) {
             if (spaceKeyDown && this._player.ammo.length < 1) {
-                let tempBullet = new objects.Bullet("bullet1", this._player.x + 10, this._player.y, this._bulletUsing)
+                let tempBullet = new objects.Bullet(this._bulletImageString, this._player.x + 10, this._player.y, this._bulletUsing)
                 this._player.shootBullet(tempBullet)
                 this.addChild(tempBullet)
             }
@@ -160,6 +171,36 @@ module scenes {
                     this.removeChild(bullet)
                 }
             });
+
+            //change bullet type when pressing Q, W, or T and level requirment is met
+            if (qDown) {
+                this._bulletImageString = 'bullet'
+                this._bulletUsing = 1
+                this.removeChild(this._currentBullet)
+                this._currentBullet = new createjs.Sprite(blastimoesAtlas, "bulletContinuous")
+                this._currentBullet.x = 678
+                this._currentBullet.y = 126
+                this.addChild(this._currentBullet)
+            }
+            if (wDown && this._currentLevel >= 2) {
+                this._bulletImageString = 'bullet1'
+                this._bulletUsing = 2
+                this.removeChild(this._currentBullet)
+                this._currentBullet = new createjs.Sprite(blastimoesAtlas, "bullet1Continuous")
+                this._currentBullet.x = 678
+                this._currentBullet.y = 126
+                this.addChild(this._currentBullet)
+            }
+            if (tDown && this._currentLevel >= 3) {
+                this._bulletImageString = 'bullet2'
+                this._bulletUsing = 3
+                this.removeChild(this._currentBullet)
+                this._currentBullet = new createjs.Sprite(blastimoesAtlas, "bullet2Continuous")
+                this._currentBullet.x = 678
+                this._currentBullet.y = 126
+                this.addChild(this._currentBullet)
+            }
+
 
             //update square object 
             this._currentTetromino.update()
@@ -192,10 +233,13 @@ module scenes {
         }
         private _initializeVariables(): void {
             this._currentLevel = 1
-            this._goalToNextLevel = this._currentLevel * 1
+            this._goalToNextLevel = this._currentLevel * 10
             this._hpPercent = 100
             score = 0
             this._bulletUsing = 1
+            this._bullets = []
+            this._bulletsLabel = []
+            this._bulletImageString = 'bullet'
         }
         private _initializeUI(): void {
             this._background = new createjs.Bitmap(assets.getResult('BG'))
@@ -231,7 +275,7 @@ module scenes {
             this._goalHeader.shadow = new createjs.Shadow('#000', 2, 2, 2)
             this.addChild(this._goalHeader);
 
-            this._goalLabel = new objects.Label("" + this._goalToNextLevel, "50px custfont", "#0fc2d7", 350, 408);
+            this._goalLabel = new objects.Label("" + this._goalToNextLevel, "50px custfont", "#0fc2d7", 365, 408);
             this._goalLabel.textAlign = 'center'
             this._goalLabel.shadow = new createjs.Shadow('#000', 2, 2, 2)
             this.addChild(this._goalLabel);
@@ -256,10 +300,43 @@ module scenes {
             this._bulletHeader.shadow = new createjs.Shadow('#000', 2, 2, 2)
             this.addChild(this._bulletHeader);
 
-            this._currentBullet = new createjs.Sprite(blastimoesAtlas, "bullet1Continuous")
+            this._currentBullet = new createjs.Sprite(blastimoesAtlas, "bulletContinuous")
             this._currentBullet.x = 678
             this._currentBullet.y = 126
             this.addChild(this._currentBullet)
+
+            this._bullets[1] = new createjs.Sprite(blastimoesAtlas, "bulletFrozen")
+            this._bullets[1].x = 678
+            this._bullets[1].y = 226
+            this.addChild(this._bullets[1])
+
+            this._bulletsLabel[1] = new objects.Label("Q.", "30px custfont", "#0fc2d7", 700, 200);
+            this._bulletsLabel[1].textAlign = 'center'
+            this.addChild(this._bulletsLabel[1]);
+
+            this._bulletsLabel[2] = new objects.Label("W.", "30px custfont", "#0fc2d7", 700, 300);
+            this._bulletsLabel[2].textAlign = 'center'
+            this._bulletsLabel[2].shadow = new createjs.Shadow('#000', 2, 2, 2)
+            this._bulletsLabel[2].alpha = 0.3
+            this.addChild(this._bulletsLabel[2]);
+
+            this._bullets[2] = new createjs.Sprite(blastimoesAtlas, "bullet1Frozen")
+            this._bullets[2].x = 678
+            this._bullets[2].y = 326
+            this._bullets[2].alpha = 0.3
+            this.addChild(this._bullets[2])
+
+            this._bulletsLabel[3] = new objects.Label("T.", "30px custfont", "#0fc2d7", 697, 400);
+            this._bulletsLabel[3].textAlign = 'center'
+            this._bulletsLabel[3].shadow = new createjs.Shadow('#000', 2, 2, 2)
+            this._bulletsLabel[3].alpha = 0.3
+            this.addChild(this._bulletsLabel[3]);
+
+            this._bullets[3] = new createjs.Sprite(blastimoesAtlas, "bullet2Frozen")
+            this._bullets[3].x = 678
+            this._bullets[3].y = 426
+            this._bullets[3].alpha = 0.3
+            this.addChild(this._bullets[3])
 
             this._createHpBar()
         }

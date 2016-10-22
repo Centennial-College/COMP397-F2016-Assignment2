@@ -3,7 +3,7 @@
  * @author Kevin Ma 
  * @date Oct 20 2016
  * @description Tetromino class represents any tetromino block in the game. All 7 types of tetrominoes will extend this class
- * @version 0.12.0 - successfully checked collision between bullet and squareTetromino
+ * @version 0.16.1- square randomly spawns going right or left
  */
 module objects {
     export abstract class Tetromino extends objects.GameObject {
@@ -79,11 +79,11 @@ module objects {
 
         //These methods randomize the x speed and y speed that block is moving
         public randomizeXSpeed(): void {
-            this.xSpeed = (Math.random() * 5) + 1
+            this.xSpeed = (Math.random() * 2) + 1
         }
 
         public randomizeYSpeed(): void {
-            this.ySpeed = (Math.random() * 1) + 0.1
+            this.ySpeed = (Math.random() * 3) + 1
         }
 
         //private methods
@@ -106,7 +106,8 @@ module objects {
             //randomized speed everytime the tetromino is spawned
             this.randomizeXSpeed()
             this.randomizeYSpeed()
-            this.xDir = 1
+            // 50% chance initial dir is left, 50% chance right
+            this.xDir = Math.random() > 0.5 ? 1 : -1
         }
     }
 }

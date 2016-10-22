@@ -3,7 +3,7 @@
  * @author Kevin Ma
  * @date: Oct 21 2016
  * @description: This file is the instructions scene for the game.
- * @version 0.15.0 - implemented instructons scene
+ * @version 1.0.0 - Initial Release; implemented diff bullet types
  */
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -41,13 +41,6 @@ var scenes;
             this._background.filters = [blurFilter];
             var bitmapBounds = this._background.getBounds();
             this._background.cache(bitmapBounds.x, bitmapBounds.y, bitmapBounds.width, bitmapBounds.height);
-            this._startGameBtn = new objects.Button("startBtn", config.Screen.CENTER_X + 100, config.Screen.CENTER_Y + 245);
-            this._startGameBtn.shadow = new createjs.Shadow('#000', 5, 5, 15);
-            this.addChild(this._startGameBtn);
-            this._startGameBtn.on("click", this._onStartGameButtonClick, this);
-            this._titleLabel = new objects.Label("Instructions", "100px custfont", "#0fc2d7", config.Screen.CENTER_X, 75);
-            this._titleLabel.shadow = new createjs.Shadow('#000', 5, 5, 15);
-            this.addChild(this._titleLabel);
             this._instructions = document.getElementById('instructions');
             this._instructions.style.display = 'block';
             this._instructions.style.boxShadow = '10px 10px 10px #333';
@@ -59,6 +52,13 @@ var scenes;
                 y: 195,
                 alpha: 1
             }, 2000, createjs.Ease.quadOut);
+            this._startGameBtn = new objects.Button("startBtn", config.Screen.CENTER_X + 100, config.Screen.CENTER_Y + 245);
+            this._startGameBtn.shadow = new createjs.Shadow('#000', 5, 5, 15);
+            this.addChild(this._startGameBtn);
+            this._startGameBtn.on("click", this._onStartGameButtonClick, this);
+            this._titleLabel = new objects.Label("Instructions", "100px custfont", "#0fc2d7", config.Screen.CENTER_X, 75);
+            this._titleLabel.shadow = new createjs.Shadow('#000', 5, 5, 15);
+            this.addChild(this._titleLabel);
             stage.addChild(this);
         };
         /**
